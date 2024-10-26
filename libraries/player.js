@@ -1,3 +1,12 @@
+
+/**
+ * Player model
+ *
+ * @class Player
+ * @typedef {Player}
+ * @author Matt Wolffe @mfwolffe, ** ADD YOURSELF HERE IF YOU EDIT ** 
+ * @classdesc
+ */
 class Player {
   constructor(xPos, yPos, xSpeed, ySpeed, health, currency) {
     this.xPos = xPos;
@@ -7,6 +16,7 @@ class Player {
     this.health = health;
     this.currency = currency;
     
+    // TODO @mfwolffe regroup on inventory DS choice
     this.inventory = [];
   }
 
