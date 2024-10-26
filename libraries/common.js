@@ -1,8 +1,14 @@
-/* Below are helpers that I constantly
- * find myself having to rewrite when working
- * in js. Add any helpers you may need here
- * as long as there are no namespace problems
+/**
+ * @file  common utils/helpers that I constantly
+ *        find myself having to rewrite when working
+ *        in js. Add any helpers you may need here
+ *        as long as there are no namespace problems
  * 
+ * @author  Matt Wolffe @mfwolffe, and random people 
+ *          around the web for certain functions that 
+ *          are lost to time since I fill most of these
+ *          in from custom VSCode snippets. 
+ *          lmk if you want that snippet file
  */
 
 
@@ -63,5 +69,3 @@ const randIntLeftInclusiveRange = (min, max) => Math.random() * (max - min) + mi
  * @returns a random integer in the range [min, max || 2^32-1]
  */
 const fastRandomIntegerFromRange = (min, max) => (Math.random() * (max - min + 1)) << 0;
-
-
