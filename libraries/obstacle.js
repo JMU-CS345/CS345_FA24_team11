@@ -6,6 +6,7 @@
  *
  * @class Obstacle
  * @typedef {Obstacle}
+ * @author Matt Wolffe @mfwolffe, ** ADD YOURSELF HERE IF YOU EDIT ** 
  * @classdesc
  */
 class Obstacle {
