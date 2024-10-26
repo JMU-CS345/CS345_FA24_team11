@@ -1,6 +1,9 @@
+/** @todo @mfwolffe finish this */
+/** @todo @mfwolffe document as you go */
+/** @todo @mfwolffe tie in others' code e.g., for like mapgen */
 
+/** @todo @mfwolffe figure out what you want to do w/ this var */
 const LANESMAP = [4, 8, 12];
-
 
 // spread this in defineProperty calls
 // to cut down on duplicate literals.
