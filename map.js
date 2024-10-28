@@ -16,7 +16,7 @@ const tileWidth = 1280 / cols;
 const tileHeight = 720 / rows;
 
 function setup() {
-  createCanvas(1280, 720);
+  createCanvas(720, 1280);
 }
 
 function draw() {
@@ -35,8 +35,6 @@ function drawMap() {
               fill(50, 50, 50);
           } else if (tileType === 'sidewalk') {
               fill(200, 200, 200);
-          } else if (tileType === 'grass') {
-              fill(0, 175, 0);
           }
           noStroke();
           rect(col * tileWidth, row * tileHeight, tileWidth, tileHeight);
