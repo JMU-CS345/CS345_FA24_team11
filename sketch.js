@@ -17,6 +17,7 @@ function draw() {
   p.drawPlayer();
   p.handlePlayerMovement();
 
+  drawLandingPage();
 }
 
 // setup()
