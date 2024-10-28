@@ -1,4 +1,3 @@
-// Hand class
 class Hand {
     constructor(x, y, d = false) {
         this.isDealer = d;
@@ -15,34 +14,31 @@ class Hand {
         let total = 0;
         let aces = 0;
 
-        // Calculate total and count Aces
         this.cards.forEach((e) => {
             if (!isNaN(e.value)) {
                 total += e.value;
             } else if (e.value === "A") {
-                total += 11; // Initially count Ace as 11
-                aces += 1;   // Increment the Ace count
+                total += 11;
+                aces += 1;
             } else {
-                total += 10; // Face cards add 10
+                total += 10;
             }
         });
 
-        // Adjust for Aces if total exceeds 21
         while (total > 21 && aces > 0) {
-            total -= 10; // Count Ace as 1 instead of 11
+            total -= 10;
             aces -= 1;
         }
 
-        return total;
+        return { total, aces };
     }
 
     busted() {
-        return this.getValue() > 21;
+        return this.getValue().total > 21;
     }
 
     draw() {
         this.cards.forEach((e, i) => {
-            // Show only the first card for the dealer when in play
             if (this.isDealer && inPlay && i === 0) {
                 e.visible = true;
             } else if (this.isDealer && inPlay && i > 0) {
@@ -51,14 +47,29 @@ class Hand {
                 e.visible = true;
             }
 
-            e.x = this.x + (i * 28);
-            e.y = this.y + (i * 10);
+            e.x = this.x + (i * 60);
+            e.y = this.y + (i * 20);
             e.draw();
         });
+
+        if (!this.isDealer) {
+            let handValue = this.getValue();
+            let displayValue = handValue.total;
+
+            if (handValue.aces > 0 && handValue.total <= 21) {
+                displayValue = `${handValue.total - 10}/${handValue.total}`;
+            }
+
+            push();
+            fill(255);
+            textSize(24);
+            textAlign(CENTER);
+            text(displayValue, this.x + 120, this.y + 120);
+            pop();
+        }
     }
 }
 
-// Deck class
 class Deck {
     constructor() {
         this.cards = [];
@@ -86,68 +97,71 @@ class Deck {
     }
 }
 
-// Global variables
 var deck = new Deck();
-var player = new Hand(300, 200);
-var dealer = new Hand(300, 100, true);
+var player = new Hand(640, 500);
+var dealer = new Hand(640, 200, true);
 var inPlay = false;
 var message = "Hit or Stand?";
 var money = 2500;
 var bet = 0;
-var bettingAllowed = true; // Controls if betting is allowed
+var bettingAllowed = true;
 
-// p5.js setup function
 function setup() {
-    createCanvas(400, 400);
+    createCanvas(1280, 720);
     rectMode(CENTER);
     deal();
 }
 
-// p5.js draw function
 function draw() {
     background(180, 0, 0);
 
-    // Draw player's hand
     player.draw();
 
-    // Draw dealer's hand
     dealer.draw();
 
-    // Display message
     push();
     fill(0);
-    textSize(22);
-    text(message, 100, 200);
+    textSize(28);
+    textAlign(CENTER);
+    text(message, width / 2, height / 2);
     pop();
 
-    // Display money and bet
     push();
     fill(0);
-    textSize(22);
-    text("$: " + money, 5, 30);
-    text("Bet: " + bet, 5, 50);
+    textSize(28);
+    textAlign(LEFT);
+    text("$: " + money, 20, 40);
+    text("Bet: " + bet, 20, 80);
+    text("1-5: 100-500", 20, 120);
+    pop();
+
+    push()
+    fill(0);
+    textSize(20);
+    textAlign(LEFT);
+    text("H: Hit", 20, 400);
+    text("S: Stand", 20, 425);
+    text("Space: Place Bet/New Hand", 20, 450);
     pop();
 }
 
-// Key control function
 function keyPressed() {
-    if (keyCode == 72 && inPlay) { // H key for hit
+    if (keyCode == 72 && inPlay) {
         hit();
     }
-    if (keyCode == 83 && inPlay) { // S key for stand
+    if (keyCode == 83 && inPlay) {
         stand();
     }
-    if (keyCode == 32 && bettingAllowed) { // Spacebar to deal
+    if (keyCode == 32 && bettingAllowed) {
         deal();
     }
-    if (bettingAllowed) { // Allow betting only if bettingAllowed is true
-        if (keyCode >= 48 && keyCode <= 53) { // Number keys for betting
+    if (bettingAllowed) {
+        if (keyCode >= 48 && keyCode <= 53) {
             bet = (keyCode - 48) * 100;
         }
     }
 }
 
-// Deal function
 function deal() {
     if (bet === 0) {
         message = "Place your bet before dealing!";
@@ -155,17 +169,15 @@ function deal() {
     }
 
     inPlay = true;
-    bettingAllowed = false; // Lock betting once a hand starts
+    bettingAllowed = false;
 
     if (deck.cards.length < 4) {
         deck = new Deck();
     }
 
-    // Reset player and dealer hands
     player.cards = [];
     dealer.cards = [];
 
-    // Deal two cards to each
     player.addCard(deck.dealCard());
     player.addCard(deck.dealCard());
     dealer.addCard(deck.dealCard());
@@ -174,7 +186,6 @@ function deal() {
     message = "Hit or Stay?";
 }
 
-// Hit function
 function hit() {
     if (deck.cards.length < 1) {
         deck = new Deck();
@@ -184,31 +195,29 @@ function hit() {
 
     if (player.busted()) {
         message = "You took an L!";
+        money -= bet;
         inPlay = false;
-        bettingAllowed = true; // Unlock betting when round ends
+        bettingAllowed = true;
     }
 }
 
-// Stand function
 function stand() {
-    while (dealer.getValue() < 17) {
+    while (dealer.getValue().total < 17) {
         dealer.addCard(deck.dealCard());
     }
 
-    // Reveal dealer's hidden card
     dealer.cards.forEach(card => card.visible = true);
 
-    inPlay = false; // End the round
-    bettingAllowed = true; // Unlock betting when round ends
+    inPlay = false;
+    bettingAllowed = true;
 
-    // Check the outcome of the game
     if (dealer.busted()) {
         message = "Bust! You win!";
         money += bet;
-    } else if (player.getValue() > dealer.getValue()) {
+    } else if (player.getValue().total > dealer.getValue().total) {
         message = "You win!";
         money += bet;
-    } else if (player.getValue() == dealer.getValue()) {
+    } else if (player.getValue().total == dealer.getValue().total) {
         message = "Tie.";
     } else {
         message = "You lost!";
@@ -216,7 +225,6 @@ function stand() {
     }
 }
 
-// Card creation function
 function createCard(x, y, s, v) {
     return {
         x: x,
@@ -229,51 +237,51 @@ function createCard(x, y, s, v) {
             this.setColor();
             if (this.visible) {
                 fill("white");
-                rect(this.x, this.y, 50, 66);
+                rect(this.x, this.y, 80, 106);
                 fill(this.color);
-                text(this.value, this.x - 20, this.y - 20);
-                text(this.value, this.x + 10, this.y + 30);
+                textSize(20);
+                text(this.value, this.x - 30, this.y - 30);
+                text(this.value, this.x + 20, this.y + 40);
 
-                // Draw suit symbols
-                if (this.suit == "d") { // Diamonds
+                if (this.suit == "d") {
                     push();
                     noStroke();
                     translate(this.x, this.y);
                     rotate(PI / 4);
-                    rect(0, 0, 10, 10);
+                    rect(0, 0, 15, 15);
                     pop();
-                } else if (this.suit == "h") { // Hearts
+                } else if (this.suit == "h") {
                     push();
                     noStroke();
                     translate(this.x, this.y);
                     rotate(PI / 4);
-                    rect(0, 0, 10, 10);
-                    ellipse(-5, 0, 10, 10);
-                    ellipse(0, -5, 10, 10);
+                    rect(0, 0, 15, 15);
+                    ellipse(-7, 0, 15, 15);
+                    ellipse(0, -7, 15, 15);
                     pop();
-                } else if (this.suit == "s") { // Spades
+                } else if (this.suit == "s") {
                     push();
                     noStroke();
                     translate(this.x, this.y);
-                    triangle(0, 0, 3, 13, -3, 13);
+                    triangle(0, 0, 5, 20, -5, 20);
                     rotate(PI / 4);
-                    rect(0, 0, 10, 10);
-                    ellipse(5, 0, 10, 10);
-                    ellipse(0, 5, 10, 10);
+                    rect(0, 0, 15, 15);
+                    ellipse(7, 0, 15, 15);
+                    ellipse(0, 7, 15, 15);
                     pop();
-                } else if (this.suit == "c") { // Clubs
+                } else if (this.suit == "c") {
                     push();
                     fill(0);
                     translate(this.x, this.y);
-                    triangle(0, 0, 3, 13, -3, 13);
-                    ellipse(5, 5, 10, 10);
-                    ellipse(0, -2, 10, 10);
-                    ellipse(-5, 5, 10, 10);
+                    triangle(0, 0, 5, 20, -5, 20);
+                    ellipse(7, 7, 15, 15);
+                    ellipse(0, -3, 15, 15);
+                    ellipse(-7, 7, 15, 15);
                     pop();
                 }
             } else {
                 fill("gray");
-                rect(this.x, this.y, 50, 66); // Hidden card
+                rect(this.x, this.y, 80, 106);
             }
         },
         setColor: function() {
