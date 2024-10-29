@@ -12,7 +12,7 @@ class Block {
   #coinPresent = false;
 
   constructor(coinpresent) {
-    this.#coinPresent = coinpresent;
+    this.#coinPresent = Boolean(coinpresent);
   }
 
   
