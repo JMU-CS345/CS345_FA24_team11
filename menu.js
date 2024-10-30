@@ -55,6 +55,8 @@ function draw() {
     case 'inventory':
       drawInventory();
       break;
+    case 'game':
+    case 'blackjack':
   }
   
   // Draw message
@@ -70,7 +72,11 @@ function drawMainMenu() {
   textAlign(CENTER, CENTER);
   textSize(40);
   text('Game Main Menu', width/2, 50);
-  
+    
+  // Store button
+    drawButton('Casino', width/2, height/2 + 180 , 200, 80);
+
+
   // Store button
   drawButton('Store', width/2, height/2 - 60, 200, 80);
   
@@ -80,6 +86,7 @@ function drawMainMenu() {
 
 function drawStoreMenu() {
   textSize(32);
+  textAlign(CENTER, CENTER);
   text('Store Menu', width/2, 50);
   
   // Cosmetics button
@@ -209,7 +216,7 @@ function handleMainMenuClick() {
     currentScreen = 'store';
   } else if (isButtonClicked(width/2, height/2 + 60, 200, 80)) {
     currentScreen = 'inventory';
-  }
+  } 
 }
 
 function handleStoreMenuClick() {
