@@ -17,3 +17,4 @@ function draw() {
   p.handlePlayerMovement();
 
 }
+console.log('hello world');
