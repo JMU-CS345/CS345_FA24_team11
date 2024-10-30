@@ -69,3 +69,13 @@ const randIntLeftInclusiveRange = (min, max) => Math.random() * (max - min) + mi
  * @returns a random integer in the range [min, max || 2^32-1]
  */
 const fastRandomIntegerFromRange = (min, max) => (Math.random() * (max - min + 1)) << 0;
+
+
+
+/**
+ * Generate a random boolean
+ *
+ * @param   {*} prob the desired probability for `true`
+ * @returns {boolean} a boolean with probability `prob` of being true 
+ */
+const randomBoolean = (prob=0.5) => Math.random() < prob;
