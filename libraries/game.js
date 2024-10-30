@@ -2,22 +2,23 @@
 /** @todo @mfwolffe document as you go */
 /** @todo @mfwolffe tie in others' code e.g., for like mapgen */
 
-/** @todo @mfwolffe figure out what you want to do w/ this var */
+/** @todo @mfwolffe figure out what you want to do w/ these vars */
 const LANESMAP = [4, 8, 12];
+const COINSMAP = [];
 
 // spread this in defineProperty calls
 // to cut down on duplicate literals.
 const WEC = {
   writable: false,
   enumerable: true,
-  configurable: false
+  configurable: false,
 }
 
 
 /**
  * Game "Engine" for frogger clone
  *
- * @class
+ * @class Game
  * @typedef {Game}
  * @author Matt Wolffe @mfwolffe, ** ADD YOURSELF IF YOU EDIT **
  * @classdesc most properties are bound during runtime and are procedurally
@@ -107,6 +108,19 @@ class Game {
     });
     Object.defineProperty(Game, "LANECOORDS", {
       value:  [...Game.generateLaneCoords(Game.difficulty)],
+      ...WEC,
+    });
+
+    Object.defineProperty(Game, "XBLOCKS", {
+      value: Game.CANVAS.WIDTH / Game.BLOCKSIZE,
+      ...WEC,
+    });
+    Object.defineProperty(Game, "YBLOCKS", {
+      value: Game.CANVAS.HEIGHT / Game.BLOCKSIZE,
+      ...WEC,
+    });
+    Object.defineProperty(Game, "MAP", {
+      value: new GameMap(),
       ...WEC,
     });
   }

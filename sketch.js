@@ -8,6 +8,7 @@ function setup() {
 
   p = new Player(100, 100, 20, 20, 20, 20);
   createCanvas(Game.CANVAS.WIDTH, Game.CANVAS.HEIGHT);
+  console.log(Game.MAP.fetchMap());
 }
 
 function draw() {
@@ -15,5 +16,4 @@ function draw() {
   
   p.drawPlayer();
   p.handlePlayerMovement();
-
 }
