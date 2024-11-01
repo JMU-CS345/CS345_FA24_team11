@@ -1,12 +1,51 @@
+let casinoInterface;
+let gameMap;
 let currentScreen = 'main';
 let money = 1000;
 let scrollPosition = 0;
 let message = '';
 let messageTimer = 0;
+// Add this variable at the top with your other variables
+let raccoonImg;
+
+// Add preload function to load the image before setup
+function preload() {
+  raccoonImg = loadImage('libraries/raccoon.jpg'); // Update with your actual image path
+}
 
 const itemWidth = 200;
 const itemHeight = 250;
 const itemSpacing = 20;
+// Add these variables at the top with your other variables
+let hue = 0;
+let backgroundColor = { r: 255, g: 0, b: 0 };
+const rainbowSpeed = 0.5; // Adjust this to change color transition speed
+
+// Add this function to convert HSV to RGB
+function hsvToRgb(h, s, v) {
+    let r, g, b;
+    const i = Math.floor(h * 6);
+    const f = h * 6 - i;
+    const p = v * (1 - s);
+    const q = v * (1 - f * s);
+    const t = v * (1 - (1 - f) * s);
+
+    switch (i % 6) {
+        case 0: r = v; g = t; b = p; break;
+        case 1: r = q; g = v; b = p; break;
+        case 2: r = p; g = v; b = t; break;
+        case 3: r = p; g = q; b = v; break;
+        case 4: r = t; g = p; b = v; break;
+        case 5: r = v; g = p; b = q; break;
+    }
+
+    return {
+        r: Math.round(r * 255),
+        g: Math.round(g * 255),
+        b: Math.round(b * 255)
+    };
+}
+
 
 let cosmetics = [
   { name: 'Hat', price: 100, owned: false },
@@ -29,50 +68,101 @@ let powerUps = [
 function setup() {
   createCanvas(1280, 720);
   textAlign(CENTER, CENTER);
+  setupCasinoUI(); // Initialize casino interface
+
 }
 
 function draw() {
-  background(220);
+  // Update the hue
+  hue = (hue + rainbowSpeed * deltaTime/1000) % 1;
+  backgroundColor = hsvToRgb(hue, 0.7, 0.95); // Saturation 0.7, Value 0.95 for pastel-like colors
+
+  // Set the background using the calculated color
+  background(backgroundColor.r, backgroundColor.g, backgroundColor.b);
   
-  // Draw money counter
+  // Add a semi-transparent overlay to ensure text readability
+  if (currentScreen === 'main') {
+      push();
+      noStroke();
+      fill(255, 255, 255, 30);
+      rect(0, 0, width, height);
+      pop();
+  }
+
+  // Draw money counter with improved contrast
   fill(0);
-  textAlign(RIGHT, TOP);
-  textSize(24);
-  text('$' + money, width - 20, 20);
-  
+  drawMoneyCounter();
+
   // Draw current screen
   switch(currentScreen) {
-    case 'main':
-      drawMainMenu();
-      break;
-    case 'store':
-      drawStoreMenu();
-      break;
-    case 'cosmetics':
-    case 'powerups':
-      drawSubmenu(currentScreen === 'cosmetics' ? cosmetics : powerUps);
-      break;
-    case 'inventory':
-      drawInventory();
-      break;
-    case 'game':
-    case 'blackjack':
+      case 'main':
+          drawMainMenu();
+          break;
+      case 'store':
+          drawStoreMenu();
+          break;
+      case 'cosmetics':
+      case 'powerups':
+          drawSubmenu(currentScreen === 'cosmetics' ? cosmetics : powerUps);
+          break;
+      case 'inventory':
+          drawInventory();
+          break;
+      case 'game':
+          drawGame();
+          break;
+      case 'casino':
+          drawCasino();
+          break;
   }
-  
-  // Draw message
+
+  // Draw message with improved contrast
   if (messageTimer > 0) {
-    fill(0);
-    textSize(20);
-    text(message, width/2, height - 100);
-    messageTimer--;
+      drawMessage();
   }
+}
+function drawMoneyCounter() {
+  push();
+  textAlign(RIGHT, TOP);
+  textSize(24);
+  // Draw shadow
+  fill(0, 0, 0, 50);
+  text('$' + money, width - 18, 22);
+  // Draw text
+  fill(0);
+  text('$' + money, width - 20, 20);
+  pop();
+}
+
+// Separate function for message drawing with improved visibility
+function drawMessage() {
+  push();
+  fill(0, 0, 0, 50);
+  textSize(20);
+  text(message, width/2 + 2, height - 98);
+  fill(0);
+  text(message, width/2, height - 100);
+  messageTimer--;
+  pop();
 }
 
 function drawMainMenu() {
   textAlign(CENTER, CENTER);
   textSize(40);
-  text('Game Main Menu', width/2, 50);
-    
+  text('Riley the Racoon the GAME!!!!!!!!!!!!!!!!!!', width/2, 50);
+  push();
+  imageMode(CENTER);
+  // Draw image with a size of 200x200 pixels at the top of the menu
+  image(raccoonImg, width/2 +400, 300, 400, 300);
+  
+  // Add a subtle frame around the image
+  noFill();
+  stroke(255);
+  strokeWeight(3);
+  rect(width/2 + 200, 150,400, 300);
+  pop();
+
+
   // Store button
     drawButton('Casino', width/2, height/2 + 180 , 200, 80);
 
@@ -82,12 +172,39 @@ function drawMainMenu() {
   
   // Inventory button
   drawButton('Inventory', width/2, height/2 + 60, 200, 80);
+
+  drawButton('Play Game', width/2, height/2 - 180, 200, 80);
+
+}
+function drawGame() {
+  if (!gameMap) {
+    gameMap = new GameMap();
+  }
+  
+  // Draw game interface
+  textSize(32);
+  text('Game Map', width/2, 50);
+  
+  // Draw the game map
+  const map = gameMap.fetchMap();
+  for (let i = 0; i < Game.YBLOCKS; i++) {
+    for (let j = 0; j < Game.XBLOCKS; j++) {
+      const block = map[i][j];
+      // Draw each block - implement your visualization here
+      // This is a placeholder visualization
+      fill(200);
+      rect(j * 40 + 100, i * 40 + 100, 35, 35);
+    }
+  }
+  
+  // Back button
+  drawButton('Back', width/2, height - 45, 200, 50);
 }
 
 function drawStoreMenu() {
   textSize(32);
   textAlign(CENTER, CENTER);
-  text('Store Menu', width/2, 50);
+  text('BUY PRODUCTS!!!!! SPEND SPEND SPEND', width/2, 50);
   
   // Cosmetics button
   drawButton('Cosmetics', width/4, height/2, 300, 100);
@@ -137,17 +254,38 @@ function drawSubmenu(items) {
 }
 
 function drawButton(label, x, y, w, h) {
-  fill(100, 200, 100);
+  // Add button shadow for depth
+  fill(0, 0, 0, 30);
+  rect(x - w/2 + 4, y - h/2 + 4, w, h);
+  
+  // Draw button with gradient effect
+  const buttonColor = color(100, 200, 100);
+  const highlightColor = color(120, 220, 120);
+  
+  fill(buttonColor);
+  if (mouseX > x - w/2 && mouseX < x + w/2 && mouseY > y - h/2 && mouseY < y + h/2) {
+      fill(highlightColor);
+  }
+  
   rect(x - w/2, y - h/2, w, h);
-  fill(0);
+  
+  // Add slight inner shadow
+  fill(0, 0, 0, 10);
+  rect(x - w/2, y - h/2, w, 5);
+  
+  // Draw text with shadow for better readability
+  fill(0, 0, 0, 50);
   textAlign(CENTER, CENTER);
   textSize(24);
+  text(label, x + 2, y + 2);
+  
+  fill(0);
   text(label, x, y);
 }
 
 function drawInventory() {
   textSize(32);
-  text('Inventory', width/2, 50);
+  text('DESIGNER FASHION AND POWERUPS', width/2, 50);
   
   let y = 100;
   textSize(24);
@@ -208,16 +346,34 @@ function mousePressed() {
     case 'inventory':
       handleInventoryClick();
       break;
+    case 'casino':
+      handleCasinoMenuClick();
+      break;
+    case 'game':
+      handleGameClick();
+      break;
+    }
   }
-}
+  function handleGameClick() {
+    if (isButtonClicked(width/2, height - 45, 200, 50)) {
+      currentScreen = 'main';
+      gameMap = null; // Reset game map when leaving
+    }
+  }
 
-function handleMainMenuClick() {
-  if (isButtonClicked(width/2, height/2 - 60, 200, 80)) {
-    currentScreen = 'store';
-  } else if (isButtonClicked(width/2, height/2 + 60, 200, 80)) {
-    currentScreen = 'inventory';
-  } 
-}
+  function handleMainMenuClick() {
+    if (isButtonClicked(width/2, height/2 - 180, 200, 80)) {  // Play Game button
+      currentScreen = 'game';
+    } else if (isButtonClicked(width/2, height/2 - 60, 200, 80)) {  // Store button
+      currentScreen = 'store';
+    } else if (isButtonClicked(width/2, height/2 + 60, 200, 80)) {  // Inventory button
+      currentScreen = 'inventory';
+    } else if (isButtonClicked(width/2, height/2 + 180, 200, 80)) {  // Casino button
+      currentScreen = 'casino';
+      currentCasinoScreen = 'landing';
+      showAllCasinoButtons();
+    }
+  }
 
 function handleStoreMenuClick() {
   if (isButtonClicked(width/4, height/2, 300, 100)) {
