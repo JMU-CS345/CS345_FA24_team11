@@ -51,7 +51,7 @@ const randIntFromInclusiveRange = (min, max) => Math.floor(Math.random() * (max 
  * @param {*} max maximum possible value to generate (exclusive)
  * @returns a random integer between min (inclusive) and max (exclusive)
  */
-const randIntLeftInclusiveRange = (min, max) => Math.random() * (max - min) + min;
+const randIntLeftInclusiveRange = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
 /**
  * This is essentially the same as randIntFromInclusiveRange, 
