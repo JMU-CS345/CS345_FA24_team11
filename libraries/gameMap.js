@@ -39,11 +39,10 @@ class GameMap {
     });
 
     this.initMap();
-    this.#numCoins = 0;
+    this.#numCoins = ROWCOINSMAP[Game.difficulty];
     this.populateCoins();
   }
 
-  /** @todo @mfwolffe this algorithm is very stupid. write a better one. */
   initMap() {
     for (let i = 0; i < Game.YBLOCKS; i++)
       for (let j = 0; j < Game.XBLOCKS; j++)
@@ -55,21 +54,13 @@ class GameMap {
 
   populateCoins() {
     while (this.#numCoins < GameMap.MAXCOINS) {
-      /** @todo @mfwolffe use this var at all? */
-      let added;
-      let tolerance = randIntFromInclusiveRange(-5, 5);
-
-      let x = randIntFromInclusiveRange(0, Game.XBLOCKS);
-      let y = randIntFromInclusiveRange(0, Game.YBLOCKS);
-      console.log(this.#map[x][y]);
-
-      // this.#map[x][y].updateCoin((added = true));
+      let x = randIntLeftInclusiveRange(0, Game.XBLOCKS)
+      let y = randIntLeftInclusiveRange(0, Game.YBLOCKS);
+      
+      this.#map[y][x].updateCoin(true);
       this.#numCoins++;
     }
   }
-
-
-
 }
 
 
