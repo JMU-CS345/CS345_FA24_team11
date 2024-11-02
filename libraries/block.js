@@ -13,9 +13,12 @@ class Block {
   #hazard;
 
   /** @todo @mfwolffe write hazard class */
-  constructor(hasCoin=false, hazard=null) {
+  constructor(hasCoin=false, hazard=null, xPos, yPos) {
     this.#hasCoin = Boolean(hasCoin);
     this.#hazard = JSON.parse(JSON.stringify(hazard));
+
+    this.xPos = xPos;
+    this.yPos = yPos;
   }
 
   /**
@@ -43,5 +46,32 @@ class Block {
    * @returns {boolean} whether this block has a coin on it
    */
   checkCoin() { return this.#hasCoin; }
+
+  
+  /**
+   * Fetch this block's x coordinate on the game map
+   *
+   * @returns {*} a number, the block's horizontal
+   *              coordinate
+   */
+  getXPos() { return this.xPos; }
+
+  
+  /**
+   * Fetch this block's y coordinate on the game map
+   *
+   * @returns {*} a number, the block's vertical
+   *              coordinate
+   */
+  getYPos() { return this.yPos; }
+
+  
+  /**
+   * Fetch both of this block's coordinates
+   * @todo @mfwolffe this is prob just cruft
+   *
+   * @returns {*}
+   */
+  getCoords() { return this.xPos, this.yPos; }
   
 }
