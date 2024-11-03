@@ -79,3 +79,55 @@ const fastRandomIntegerFromRange = (min, max) => (Math.random() * (max - min + 1
  * @returns {boolean} a boolean with probability `prob` of being true 
  */
 const randomBoolean = (prob=0.5) => Math.random() < prob;
+
+
+/**
+ * @see https://stackoverflow.com/a/54024653
+ *
+ * @author Kamil Kiełczewski (Stack Exchange)
+ * @param {*} hue
+ * @param {*} sat
+ * @param {*} val
+ * @returns {{}}
+ */
+const terseHSV2RGB = (hue, sat, val) => {
+  const generator = (n, k = (n + hue / 60) % 6) =>
+    val - val * sat * Math.max(Math.min(k, 4 - k, 1), 0);
+    return generator(5), generator(3), generator(1);
+}
+
+
+/**
+ * Description placeholder
+ *
+ * @param {*} h hue
+ * @param {*} s saturation
+ * @param {*} v value
+ * @returns {{ r: any; g: any; b: any; }}
+ */
+function hsvToRgb(h, s, v) {
+  let r, g, b;
+  const i = Math.floor(h * 6);
+  const f = h * 6 - i;
+  const p = v * (1 - s);
+  const q = v * (1 - f * s);
+  const t = v * (1 - (1 - f) * s);
+
+  switch (i % 6) {
+      case 0: r = v; g = t; b = p; break;
+      case 1: r = q; g = v; b = p; break;
+      case 2: r = p; g = v; b = t; break;
+      case 3: r = p; g = q; b = v; break;
+      case 4: r = t; g = p; b = v; break;
+      case 5: r = v; g = p; b = q; break;
+  }
+
+  return {
+      r: Math.round(r * 255),
+      g: Math.round(g * 255),
+      b: Math.round(b * 255)
+  };
+}
+
+
+
