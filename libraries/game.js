@@ -123,6 +123,11 @@ class Game {
       value: new GameMap(),
       ...WEC,
     });
+
+    Object.defineProperty(Game, "MAINMENU", {
+      value: new Menu(),
+      ...WEC,
+    });
   }
 
   static generateLaneCoords(difficulty) {
