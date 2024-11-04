@@ -13,7 +13,14 @@ function setup() {
 
 function draw() {
   background(220);
-  
+  drawMap();
   player.drawPlayer();
   player.handlePlayerMovement();
+  player.drawCasinoPrompt();
+}
+
+function keyPressed() {
+  if (key === 'E' || key === 'e') {
+    player.enterCasino();
+  }
 }
