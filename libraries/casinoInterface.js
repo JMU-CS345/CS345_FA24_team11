@@ -46,6 +46,24 @@ function drawCasino() {
       drawHighLowGame();
       break;
   }
+  // switch(currentCasinoScreen) {
+  //   case 'landing':
+  //     drawLandingPage();
+  //     showAllCasinoButtons();
+  //     break;
+  //   case 'blackjack':
+  //     drawBlackjackGame();
+  //     hideAllCasinoButtons();
+  //     break;
+  //   case 'roulette':
+  //     drawRouletteGame();
+  //     hideAllCasinoButtons();
+  //     break;
+  // }
+
+/** @todo casino code? */
+// setupBlackJack();
+// drawBlackjackGame();
 }
 
 function drawLandingPage() {

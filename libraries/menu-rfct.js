@@ -5,7 +5,7 @@
  * 
  * @class ClassName 
  * @typedef {ClassName} 
- * @author  Matt Wolffe 
+ * @author  Matt Wolffe
             this is refactoring and 
             integration of Will Stroud's code)
  * @classdesc 

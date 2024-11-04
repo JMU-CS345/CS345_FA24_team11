@@ -116,7 +116,10 @@ function draw() {
           drawGame();
           break;
       case 'casino':
-          drawCasino();
+          // drawCasino();
+          setupBlackJack()
+          drawBlackJack();
+
           break;
   }
 
@@ -360,7 +363,8 @@ function mousePressed() {
       handleInventoryClick();
       break;
     case 'casino':
-      handleCasinoMenuClick();
+      // handleCasinoMenuClick();
+      
       break;
     case 'game':
       handleGameClick();
@@ -377,6 +381,13 @@ function mousePressed() {
     }
   }
 
+  function keyReleased() {
+    console.log("here");
+    console.log(key, keyCode);
+    
+    if (currentScreen == 'casino') keyReleasedBlackJack();
+  }
+
   function handleMainMenuClick() {
     if (isButtonClicked(width/2, height/2 - 180, 200, 80)) {  // Play Game button
       currentScreen = 'game';
@@ -387,7 +398,9 @@ function mousePressed() {
     } else if (isButtonClicked(width/2, height/2 + 180, 200, 80)) {  // Casino button
       currentScreen = 'casino';
       currentCasinoScreen = 'landing';
-      showAllCasinoButtons();
+      // setupBlackJack();
+      // drawBlackJack();
+      // showAllCasinoButtons();
     }
   }
 
@@ -420,6 +433,7 @@ function handleInventoryClick() {
     currentScreen = 'main';
   }
 }
+
 
 function isButtonClicked(x, y, w, h) {
   return mouseX > x - w/2 && mouseX < x + w/2 && mouseY > y - h/2 && mouseY < y + h/2;
