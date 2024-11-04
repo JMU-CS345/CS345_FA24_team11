@@ -352,6 +352,9 @@ function mousePressed() {
     case 'game':
       handleGameClick();
       break;
+    case 'highlow':
+      handleHighLowClick();
+      break;
     }
   }
   function handleGameClick() {
