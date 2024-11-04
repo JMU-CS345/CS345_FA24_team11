@@ -118,7 +118,6 @@ function draw() {
           drawGame();
           break;
       case 'casino':
-          // drawCasino();
           if (!blackJackInit) {
             setupBlackJack()
             blackJackInit = true;

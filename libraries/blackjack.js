@@ -107,20 +107,15 @@ var bet = 0;
 var bettingAllowed = true;
 
 function setupBlackJack() {
-  // createCanvas(1280, 720);
-  console.log("im called");
-  
   rectMode(CENTER);
   deal();
 }
-
 
 
 function drawBlackJack() {
   background(180, 0, 0);
 
   playerHand.draw();
-
   dealer.draw();
 
   push();
