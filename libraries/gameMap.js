@@ -66,7 +66,7 @@ class GameMap {
     this.#map.forEach((row) => {
       row.forEach((block) => {
         if (block.checkCoin()) {
-          image(coinsprite, 
+          image(coinSprite, 
                 block.getXPos(),
                 block.getYPos(),
                 Game.BLOCKSIZE,

@@ -6,10 +6,13 @@ let scrollPosition = 0;
 let message = '';
 let messageTimer = 0;
 // Add this variable at the top with your other variables
-let raccoonImg;
+let raccoonImg, coinSprite;
+
+let game, player;
 
 // Add preload function to load the image before setup
 function preload() {
+  coinSprite = loadImage('assets/coin.gif');
   raccoonImg = loadImage('libraries/raccoon.jpg'); // Update with your actual image path
 }
 
@@ -66,10 +69,11 @@ let powerUps = [
 ];
 
 function setup() {
+  game = new Game(0);
+  player = new Player(100, 100, 20, 20, 20, 20);
   createCanvas(1280, 720);
   textAlign(CENTER, CENTER);
   setupCasinoUI(); // Initialize casino interface
-
 }
 
 function draw() {
@@ -78,7 +82,8 @@ function draw() {
   backgroundColor = hsvToRgb(hue, 0.7, 0.95); // Saturation 0.7, Value 0.95 for pastel-like colors
 
   // Set the background using the calculated color
-  background(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+  // background(backgroundColor.r, backgroundColor.g, backgroundColor.b);
+  background("teal");
   
   // Add a semi-transparent overlay to ensure text readability
   if (currentScreen === 'main') {
@@ -91,7 +96,6 @@ function draw() {
 
   // Draw money counter with improved contrast
   fill(0);
-  drawMoneyCounter();
 
   // Draw current screen
   switch(currentScreen) {
@@ -116,11 +120,19 @@ function draw() {
           break;
   }
 
+
+  // SEEME moved below to bring to front
+  drawMoneyCounter();
+
+
+
   // Draw message with improved contrast
   if (messageTimer > 0) {
       drawMessage();
   }
 }
+
+
 function drawMoneyCounter() {
   push();
   textAlign(RIGHT, TOP);
@@ -129,7 +141,8 @@ function drawMoneyCounter() {
   fill(0, 0, 0, 50);
   text('$' + money, width - 18, 22);
   // Draw text
-  fill(0);
+  // fill(0);
+  fill("white")
   text('$' + money, width - 20, 20);
   pop();
 }
@@ -149,7 +162,7 @@ function drawMessage() {
 function drawMainMenu() {
   textAlign(CENTER, CENTER);
   textSize(40);
-  text('Riley the Racoon the GAME!!!!!!!!!!!!!!!!!!', width/2, 50);
+  text('Raccoon Rush', width/2, 50);
   push();
   imageMode(CENTER);
   // Draw image with a size of 200x200 pixels at the top of the menu
@@ -180,11 +193,7 @@ function drawGame() {
   if (!gameMap) {
     gameMap = new GameMap();
   }
-  
-  // Draw game interface
-  textSize(32);
-  text('Game Map', width/2, 50);
-  
+    
   // Draw the game map
   const map = gameMap.fetchMap();
   for (let i = 0; i < Game.YBLOCKS; i++) {
@@ -192,10 +201,14 @@ function drawGame() {
       const block = map[i][j];
       // Draw each block - implement your visualization here
       // This is a placeholder visualization
-      fill(200);
-      rect(j * 40 + 100, i * 40 + 100, 35, 35);
+      fill("teal");
+      rect(j * 40, i * 40, 35, 35);
     }
   }
+
+  Game.MAP.renderCoins();
+  player.drawPlayer();
+  player.handlePlayerMovement();
   
   // Back button
   drawButton('Back', width/2, height - 45, 200, 50);
