@@ -54,7 +54,7 @@ class GameMap {
 
   populateCoins() {
     while (this.#numCoins < GameMap.MAXCOINS) {
-      let x = randIntLeftInclusiveRange(0, Game.XBLOCKS)
+      let x = randIntLeftInclusiveRange(0, Game.XBLOCKS);
       let y = randIntLeftInclusiveRange(0, Game.YBLOCKS);
       
       this.#map[y][x].updateCoin(true);
@@ -66,7 +66,7 @@ class GameMap {
     this.#map.forEach((row) => {
       row.forEach((block) => {
         if (block.checkCoin()) {
-          image(coinsprite, 
+          image(coinSprite, 
                 block.getXPos(),
                 block.getYPos(),
                 Game.BLOCKSIZE,
