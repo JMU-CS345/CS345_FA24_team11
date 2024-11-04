@@ -10,6 +10,8 @@ let raccoonImg, coinSprite;
 
 let game, player;
 
+let blackJackInit = false;
+
 // Add preload function to load the image before setup
 function preload() {
   coinSprite = loadImage('assets/coin.gif');
@@ -117,9 +119,11 @@ function draw() {
           break;
       case 'casino':
           // drawCasino();
-          setupBlackJack()
+          if (!blackJackInit) {
+            setupBlackJack()
+            blackJackInit = true;
+          }
           drawBlackJack();
-
           break;
   }
 
