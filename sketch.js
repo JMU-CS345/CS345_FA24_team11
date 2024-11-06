@@ -1,4 +1,4 @@
-let game, menu, player;
+let game, menu;
 
 
 /* ADD SPRITE VARIABLES HERE */
@@ -23,17 +23,15 @@ function setup() {
   if (!Game.difficulty) throw new Error("Game not initialized");
 
   /* ADD STUFF THAT DEPENDS ON `Game` BELOW HERE AS NEEDED */
-  player = new Player(100, 100, 20, 20, 20, 20);
   createCanvas(Game.CANVAS.WIDTH, Game.CANVAS.HEIGHT);
   console.log(Game.MAP.fetchMap());
-
 }
 
 function draw() {
   Game.MAINMENU.colorizeBackground();
   
-  player.drawPlayer();
-  player.handlePlayerMovement();
-
+  Game.player.drawPlayer();
+  Game.player.handlePlayerMovement();
+  
   Game.MAP.renderCoins();
 }
