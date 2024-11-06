@@ -1,18 +1,10 @@
-const mainMap = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
+const mainMap = [];
 
 const tileTypes = {0: 'road', 1: 'sidewalk'};
 
 const rows = mainMap.length;
 const cols = mainMap[0].length;
-const tileWidth = 1280 / cols;
+const tileWidth = GAME.LANEWIDTH;
 const tileHeight = 720 / rows;
 
 function setup() {
