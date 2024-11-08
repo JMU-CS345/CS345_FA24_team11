@@ -9,6 +9,7 @@ function preload() {
   /* LOAD SPRITES HERE */
   coinsprite = loadImage('assets/coin.gif');
   racoonSprite = loadImage('assets/raccoon.jpg');
+  
 
 }
 
