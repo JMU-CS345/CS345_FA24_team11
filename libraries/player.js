@@ -3,7 +3,7 @@
  *
  * @class Player
  * @typedef {Player}
- * @author Matt Wolffe @mfwolffe, @stroudw ** ADD YOURSELF HERE IF YOU EDIT ** 
+ * @author Matt Wolffe @mfwolffe, @stroudw ** ADD YOURSELF HERE IF YOU EDIT **
  * @classdesc
  */
 
@@ -16,7 +16,7 @@ class Player {
     this.health = health;
     this.currency = currency;
     this.inventory = [];// TODO @mfwolffe regroup on inventory DS choice
-    
+
     // Sprite properties
     this.sprite = loadImage('assets/rSprite.png');
     this.spriteWidth = 32;
@@ -27,7 +27,7 @@ class Player {
     this.moveAnimationSpeed = 3;   // Faster speed for movement animations
     this.facing = 'down';          // Default facing direction
     this.isMoving = false;         // Track movement state
-    
+
     // Animation frames mapping with new values
     this.animations = {
       down: { row: 7, frames: 8, startFrame: 0 },
@@ -61,15 +61,23 @@ class Player {
       this.isMoving = true;
     }
 
+    // Keeps the player within the map boundaries
+    // I think the sprite is a little off from the player's position
+    this.xPos = constrain(this.xPos, -30, 1170);
+    this.yPos = constrain(this.yPos, -45, 1320);
+
+
     // Always update animation, whether moving or idle
     this.updateAnimation();
   }
+
+
 
   updateAnimation() {
     this.frameCount++;
     // Use different animation speeds based on movement state
     const currentAnimationSpeed = this.isMoving ? this.moveAnimationSpeed : this.idleAnimationSpeed;
-    
+
     if (this.frameCount >= currentAnimationSpeed) {
       // Always cycle through all frames, whether moving or idle
       const maxFrames = this.animations[this.facing].frames;
@@ -83,10 +91,10 @@ class Player {
     const animation = this.animations[this.facing];
     const sx = (this.currentFrame + animation.startFrame) * this.spriteWidth;
     const sy = animation.row * this.spriteHeight;
-    
+
     push();  // Save current rendering state
     noSmooth();  // Ensure pixel-perfect rendering
-    
+
     // Draw the current frame
     image(
       this.sprite,
@@ -99,7 +107,7 @@ class Player {
       this.spriteWidth,
       this.spriteHeight
     );
-    
+
     pop();  // Restore previous rendering state
   }
 

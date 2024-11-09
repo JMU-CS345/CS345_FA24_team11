@@ -9,7 +9,7 @@ function preload() {
   /* LOAD SPRITES HERE */
   coinsprite = loadImage('assets/coin.gif');
   racoonSprite = loadImage('assets/raccoon.jpg');
-  
+
 
 }
 
@@ -18,8 +18,8 @@ function setup() {
   game = new Game(2);
   menu = new Menu(0.5);
 
-  // if you see the error thrown below 
-  // in console, you are likely just 
+  // if you see the error thrown below
+  // in console, you are likely just
   // missing an instance of a game.
   if (!Game.difficulty) throw new Error("Game not initialized");
 
@@ -32,7 +32,7 @@ function setup() {
 
 function draw() {
   Game.MAINMENU.colorizeBackground();
-  
+
   player.drawPlayer();
   player.handlePlayerMovement();
 
