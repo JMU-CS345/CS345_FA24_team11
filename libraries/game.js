@@ -128,6 +128,24 @@ class Game {
       value: new Menu(),
       ...WEC,
     });
+
+    Object.defineProperty(Game, "STARTX", {
+      value: width / 2 - Game.BLOCKSIZE / 2, 
+      ...WEC,
+    });
+    Object.defineProperty(Game, "STARTY", {
+      value: height -  (Game.BLOCKSIZE * 2), 
+      ...WEC,
+    });
+
+    this.player = new Player(
+      Game.STARTX,
+      Game.STARTY,
+      DEFAULTSPEED,
+      DEFAULTSPEED,
+      DEFAULTHEALTH,
+      DEFAULTCURRENCY
+    );
   }
 
   static generateLaneCoords(difficulty) {
