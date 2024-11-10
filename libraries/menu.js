@@ -72,7 +72,7 @@ let powerUps = [
 
 function setup() {
   game = new Game(0);
-  player = new Player(100, 100, 20, 20, 20, 20);
+  player = new Player(100, 100, 10, 10, 20, 20);
   createCanvas(1280, 720);
   textAlign(CENTER, CENTER);
   setupCasinoUI(); // Initialize casino interface
