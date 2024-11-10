@@ -118,12 +118,13 @@ function draw() {
           drawGame();
           break;
       case 'casino':
-          if (!blackJackInit) {
-            setupBlackJack()
-            blackJackInit = true;
-          }
-          drawBlackJack();
-          break;
+          // if (!blackJackInit) {
+          //   setupBlackJack()
+          //   blackJackInit = true;
+          // }
+          // drawBlackJack();
+          // break;
+          drawCasino();
   }
 
 

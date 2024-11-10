@@ -16,6 +16,10 @@ function setupCasinoUI() {
   rouletteButton.position(260, 600);
   rouletteButton.mousePressed(navigateToRoulette);
 
+  rouletteButton = createButton("Slots");
+  rouletteButton.position(260, 600);
+  rouletteButton.mousePressed(navigateToSlots);
+
   storeButton = createButton("Store");
   storeButton.position(260, 700);
   storeButton.mousePressed(navigateToStore);
@@ -38,7 +42,12 @@ function drawCasino() {
       drawRouletteGame();
       hideAllCasinoButtons();
       break;
+    case "slots":
+      drawSlotsGame();
+      hideAllCasinoButtons();
+      break;
     case "highlow":
+      hideAllCasinoButtons();
       if (!highLowInitialized) {
         setupHighLowGame(); // Initialize the game only once
         highLowInitialized = true; // Set the flag to prevent reinitialization
@@ -61,9 +70,9 @@ function drawCasino() {
   //     break;
   // }
 
-/** @todo casino code? */
-// setupBlackJack();
-// drawBlackjackGame();
+  /** @todo casino code? */
+  // setupBlackJack();
+  // drawBlackjackGame();
 }
 
 function drawLandingPage() {
@@ -80,6 +89,13 @@ function drawBlackjackGame() {
 }
 
 function drawRouletteGame() {
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  text("Roulette Game", width / 2, 200);
+  // Add roulette game implementation here
+}
+
+function drawSlotsGame() {
   textSize(32);
   textAlign(CENTER, CENTER);
   text("Roulette Game", width / 2, 200);
@@ -105,6 +121,11 @@ function navigateToRoulette() {
 function navigateToHighLow() {
   hideAllCasinoButtons();
   currentCasinoScreen = "highlow";
+}
+
+function navigateToSlots() {
+  hideAllCasinoButtons();
+  currentCasinoScreen = "slots";
 }
 
 function navigateToStore() {
