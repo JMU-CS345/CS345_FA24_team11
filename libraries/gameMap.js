@@ -76,6 +76,24 @@ class GameMap {
       });
     });
   }
+
+  clearCoins() {
+    this.#map.forEach((row) => {
+      row.forEach((block) => {
+        block.updateCoin(false);
+      })
+    })
+    this.#numCoins = 0;
+  }
+
+  static renderGrid() {
+    for (let i = 0; i < Game.YBLOCKS; i++) {
+      for (let j = 0; j < Game.XBLOCKS; j++) {
+        fill("teal");
+        rect(j * Game.BLOCKSIZE, i * Game.BLOCKSIZE, Game.BLOCKSIZE, Game.BLOCKSIZE);
+      }
+    }
+  }
 }
 
 
