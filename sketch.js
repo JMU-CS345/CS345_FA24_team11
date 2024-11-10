@@ -30,27 +30,13 @@ function setup() {
 
 function mousePressed() {
   switch(currentScreen) {
-    case 'main':
-      console.log("here");
-      GameMenu.handleMainMenuClick();
-      break;
-    case 'store':
-      handleStoreMenuClick();
-      break;
+    case 'main':  GameMenu.handleMainMenuClick();   break;
+    case 'store': handleStoreMenuClick();           break;
     case 'cosmetics':
-    case 'powerups':
-      handleSubmenuClick();
-      break;
-    case 'inventory':
-      handleInventoryClick();
-      break;
-    case 'casino':
-      // handleCasinoMenuClick();
-      
-      break;
-    case 'game':
-      Game.handleGameClick();
-      break;
+    case 'powerups':  handleSubmenuClick();         break;
+    case 'inventory': handleInventoryClick();       break;
+    case 'casino': /* handleCasinoMenuClick(); */   break;
+    case 'game':      Game.handleGameClick();       break;
     }
 }
 
