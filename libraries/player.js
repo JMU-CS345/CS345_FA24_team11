@@ -1,4 +1,9 @@
 
+/** @todo @mfwolffe do this differently idk */
+const DEFAULTSPEED = 5;
+const DEFAULTHEALTH = 15;
+const DEFAULTCURRENCY = 100;
+
 /**
  * Player model
  *
@@ -8,16 +13,21 @@
  * @classdesc
  */
 class Player {
-  constructor(xPos, yPos, xSpeed, ySpeed, health, currency) {
-    this.xPos = xPos;
-    this.yPos = yPos;
-    this.xSpeed = xSpeed;
-    this.ySpeed = ySpeed;
-    this.health = health;
-    this.currency = currency;
-    
-    // TODO @mfwolffe regroup on inventory DS choice
-    this.inventory = [];
+  constructor(xPos=Game.STARTX,
+    yPos=Game.STARTY,
+    xSpeed=DEFAULTSPEED,
+    ySpeed=DEFAULTSPEED,
+    health=DEFAULTHEALTH,
+    currency=DEFAULTCURRENCY) {
+      this.xPos = xPos;
+      this.yPos = yPos;
+      this.xSpeed = xSpeed;
+      this.ySpeed = ySpeed;
+      this.health = health;
+      this.currency = currency;
+      
+      // TODO @mfwolffe regroup on inventory DS choice
+      this.inventory = [];
   }
 
   handlePlayerMovement() {
