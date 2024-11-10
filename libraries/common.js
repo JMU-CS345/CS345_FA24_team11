@@ -129,5 +129,80 @@ function hsvToRgb(h, s, v) {
   };
 }
 
+const drawMoneyCounter = () => {
+  push();
+  textAlign(RIGHT, TOP);
+  textSize(24);
+  // Draw shadow
+  fill(0, 0, 0, 50);
+  text('$' + money, width - 18, 22);
+  // Draw text
+  // fill(0);
+  fill("white")
+  text('$' + money, width - 20, 20);
+  pop();
+}
+
+const drawMessage = () => {
+  push();
+  fill(0, 0, 0, 50);
+  textSize(20);
+  text(message, width/2 + 2, height - 98);
+  fill(0);
+  text(message, width/2, height - 100);
+  messageTimer--;
+  pop();
+}
+
+const drawScrollArrows = () => {
+  fill(150);
+  if (scrollPosition > 0) {
+    triangle(20, height/2, 50, height/2 - 30, 50, height/2 + 30);
+  }
+  if (scrollPosition < getMaxScroll()) {
+    triangle(width - 20, height/2, width - 50, height/2 - 30, width - 50, height/2 + 30);
+  }
+}
+
+const isButtonClicked = (x, y, w, h) => {
+  return mouseX > x - w/2 && mouseX < x + w/2 && mouseY > y - h/2 && mouseY < y + h/2;
+}
 
 
+const readableOverlay = () => {
+  push();
+  noStroke();
+  fill(255, 255, 255, 30);
+  rect(0, 0, width, height);
+  pop();
+}
+
+const drawButton = (label, x, y, w, h) => {
+  // Add button shadow for depth
+  fill(0, 0, 0, 30);
+  rect(x - w/2 + 4, y - h/2 + 4, w, h);
+  
+  // Draw button with gradient effect
+  const buttonColor = color(100, 200, 100);
+  const highlightColor = color(120, 220, 120);
+  
+  fill(buttonColor);
+  if (mouseX > x - w/2 && mouseX < x + w/2 && mouseY > y - h/2 && mouseY < y + h/2) {
+      fill(highlightColor);
+  }
+  
+  rect(x - w/2, y - h/2, w, h);
+  
+  // Add slight inner shadow
+  fill(0, 0, 0, 10);
+  rect(x - w/2, y - h/2, w, 5);
+  
+  // Draw text with shadow for better readability
+  fill(0, 0, 0, 50);
+  textAlign(CENTER, CENTER);
+  textSize(24);
+  text(label, x + 2, y + 2);
+  
+  fill(0);
+  text(label, x, y);
+}
