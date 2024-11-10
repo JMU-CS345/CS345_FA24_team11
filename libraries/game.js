@@ -14,6 +14,7 @@ const WEC = {
   configurable: false,
 }
 
+let currentScreen = 'main';
 
 /**
  * Game "Engine" for frogger clone
@@ -30,7 +31,11 @@ const WEC = {
  *            `let thing = Game.BLOCKSIZE * 2`
  */
 class Game {
-  constructor(difficulty) {
+
+  static player;
+  static currentScene;
+
+  constructor(difficulty, width=null, height=null) {
     if (![0, 1, 2].includes(difficulty))
       throw new Error(`Invalid difficulty param to Game Constructor: ${difficulty}`);
 
@@ -91,8 +96,8 @@ class Game {
     });
     Object.defineProperty(Game, "CANVAS", {
       value: {
-        "WIDTH": 720,
-        "HEIGHT": 1280,
+        "WIDTH": width ?? 720,
+        "HEIGHT": height ?? 1280,
       },
       ...WEC,
     });
@@ -106,10 +111,10 @@ class Game {
       value: Game.CANVAS.HEIGHT / 4,
       ...WEC,
     });
-    Object.defineProperty(Game, "LANECOORDS", {
-      value:  [...Game.generateLaneCoords(Game.difficulty)],
-      ...WEC,
-    });
+    // Object.defineProperty(Game, "LANECOORDS", {
+    //   value:  [...Game.generateLaneCoords(Game.difficulty)],
+    //   ...WEC,
+    // });
 
     Object.defineProperty(Game, "XBLOCKS", {
       value: Game.CANVAS.WIDTH / Game.BLOCKSIZE,
@@ -125,7 +130,7 @@ class Game {
     });
 
     Object.defineProperty(Game, "MAINMENU", {
-      value: new Menu(),
+      value: new GameMenu(),
       ...WEC,
     });
 
@@ -138,7 +143,9 @@ class Game {
       ...WEC,
     });
 
-    this.player = new Player(
+    Game.currentScene = "MAIN";
+
+    Game.player = new Player(
       Game.STARTX,
       Game.STARTY,
       DEFAULTSPEED,
@@ -148,7 +155,39 @@ class Game {
     );
   }
 
-  static generateLaneCoords(difficulty) {
-    return [];
+  static drawGame() {
+    if (!Game.MAP)
+      alert("bad state; game not initialized by time of drawGame call");
+
+    Game.renderGrid();
+    Game.MAP.renderCoins();
+    Game.player.drawPlayer();
+    Game.player.handlePlayerMovement();
+    
+    drawButton('Back', width/2, height - 45, 200, 50);
+  }
+
+  static startGame() {
+    GameMenu.drawMenu();
+  }
+
+  static handleGameClick() {
+    console.log(Game.MAP.fetchMap());
+    if (isButtonClicked(width/2, height - 45, 200, 50)) {
+      currentScreen = 'main';
+      
+      Game.MAP.clearCoins();
+      Game.MAP.populateCoins();
+      
+    }
+  }
+
+  static renderGrid() {
+    for (let i = 0; i < Game.YBLOCKS; i++) {
+      for (let j = 0; j < Game.XBLOCKS; j++) {
+        fill("teal");
+        rect(j * Game.BLOCKSIZE, i * Game.BLOCKSIZE, Game.BLOCKSIZE, Game.BLOCKSIZE);
+      }
+    }
   }
 }
