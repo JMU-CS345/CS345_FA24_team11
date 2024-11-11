@@ -30,32 +30,35 @@ function setup() {
 
 function mousePressed() {
   switch(currentScreen) {
-    case 'main':  GameMenu.handleMainMenuClick();   break;
-    case 'store': handleStoreMenuClick();           break;
+    case 'main':      GameMenu.handleMainMenuClick();     break;
+    case 'store':     StoreMenu.handleStoreMenuClick();   break;
     case 'cosmetics':
-    case 'powerups':  handleSubmenuClick();         break;
-    case 'inventory': handleInventoryClick();       break;
-    case 'casino': /* handleCasinoMenuClick(); */   break;
-    case 'game':      Game.handleGameClick();       break;
+    case 'powerups':  StoreMenu.handleSubmenuClick();      break;
+    case 'inventory': StoreMenu.handleInventoryClick();   break;
+    case 'casino': /* handleCasinoMenuClick(); */         break;
+    case 'game':      Game.handleGameClick();             break;
     }
 }
 
 
 function draw() {
   /** @todo @mfwolffe don't call this here */
-  Game.startGame();
+  background("teal");
 
   switch(currentScreen) {
     case 'game':        Game.drawGame();                    break;
     case 'main':        GameMenu.drawMenu();                break;
-    case 'store':       drawStoreMenu();                    break;
-    case 'inventory':   drawInventory();                    break;
-    case 'inventory':   !blackJackInit && setupBlackJack(); break;
-    case 'powerups':
-    case 'cosmetics':   drawSubmenu(currentScreen === 'cosmetics' ? cosmetics : powerUps);
+    case 'store':       StoreMenu.drawStoreMenu();               break;
+    case 'casino':      !blackJackInit && setupBlackJack(); break;
+    case 'inventory':   StoreMenu.drawInventory();                    break;
+    case 'powerups':    /** @todo @mfwolffe don't do below like that, inject it */
+    case 'cosmetics':   StoreMenu.drawSubmenu(currentScreen === 'cosmetics' ? StoreMenu.cosmetics : StoreMenu.powerUps);
       break;
     default: 
       console.log("BAD SCENE");
       break;
   }
+
+  let block;
+  (block = Game.player.checkCollectCoin()) && Game.player.collectCoin(block);
 }
