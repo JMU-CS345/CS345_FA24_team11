@@ -50,7 +50,9 @@ class Game {
     // 
     Object.defineProperty(Game, 'difficulty', {
       value: difficulty,
-      ...WEC,
+      writable: true,
+      enumerable: true,
+      configurable: true,
     });
     Object.defineProperty(Game, 'BLOCKSIZE', {
       value: 20,
