@@ -44,13 +44,14 @@ class GameMap {
   }
 
   initMap() {
+    /** @todo @mfwolffe need to switch on the fly b/t portrait and landscape */
     for (let i = 0; i < Game.YBLOCKS; i++)
       for (let j = 0; j < Game.XBLOCKS; j++)
         this.#map[i][j] = new Block(false, false, Game.BLOCKSIZE * i, Game.BLOCKSIZE * j);
   }
   
   fetchMap() { return this.#map; }
-  fetchBlock(i, j) { return this.#map[i][j]; }
+  fetchBlock(i, j) { return this.#map[j][i]; }
 
   populateCoins() {
     while (this.#numCoins < GameMap.MAXCOINS) {
@@ -95,5 +96,3 @@ class GameMap {
     }
   }
 }
-
-

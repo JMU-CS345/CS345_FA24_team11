@@ -15,6 +15,7 @@ const WEC = {
 }
 
 let currentScreen = 'main';
+let blackJackInit = false;
 
 /**
  * Game "Engine" for frogger clone
@@ -135,13 +136,30 @@ class Game {
     });
 
     Object.defineProperty(Game, "STARTX", {
-      value: width / 2 - Game.BLOCKSIZE / 2, 
+      // value: width / 2 - Game.BLOCKSIZE / 2,
+      value: 0, 
       ...WEC,
     });
     Object.defineProperty(Game, "STARTY", {
-      value: height -  (Game.BLOCKSIZE * 2), 
+      // value: height -  (Game.BLOCKSIZE * 2),
+      value: 0,
       ...WEC,
     });
+
+    Object.defineProperty(Game, "ITEMWIDTH", {
+      value: Game.BLOCKSIZE * 10,
+      ...WEC,
+    });
+    Object.defineProperty(Game, "ITEMHEIGHT", {
+      value: Game.ITEMWIDTH * 1.5,
+      ...WEC,
+    });
+    Object.defineProperty(Game, "ITEMGAP", {
+      value: Game.BLOCKSIZE,
+      ...WEC,
+    });
+
+
 
     Game.currentScene = "MAIN";
 
@@ -165,6 +183,13 @@ class Game {
     Game.player.handlePlayerMovement();
     
     drawButton('Back', width/2, height - 45, 200, 50);
+
+    const bill = () => { console.log("bill") }
+
+
+    checkSquares({x: Game.player.xPos, y: Game.player.yPos, w: Game.BLOCKSIZE, h: Game.BLOCKSIZE}, {x: 20, y: 0, w: Game.BLOCKSIZE, h: Game.BLOCKSIZE}) && bill();
+
+
   }
 
   static startGame() {
