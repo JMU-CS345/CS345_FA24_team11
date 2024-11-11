@@ -33,7 +33,7 @@ function mousePressed() {
     case 'main':      GameMenu.handleMainMenuClick();     break;
     case 'store':     StoreMenu.handleStoreMenuClick();   break;
     case 'cosmetics':
-    case 'powerups':  StoreMenu.handleSubmenuClick();      break;
+    case 'powerups':  StoreMenu.handleSubmenuClick();     break;
     case 'inventory': StoreMenu.handleInventoryClick();   break;
     case 'casino': /* handleCasinoMenuClick(); */         break;
     case 'game':      Game.handleGameClick();             break;
@@ -46,11 +46,11 @@ function draw() {
   background("teal");
 
   switch(currentScreen) {
-    case 'game':        Game.drawGame();                    break;
-    case 'main':        GameMenu.drawMenu();                break;
-    case 'store':       StoreMenu.drawStoreMenu();               break;
-    case 'casino':      !blackJackInit && setupBlackJack(); break;
-    case 'inventory':   StoreMenu.drawInventory();                    break;
+    case 'game':        Game.drawGame();                      break;
+    case 'main':        GameMenu.drawMenu();                  break;
+    case 'store':       StoreMenu.drawStoreMenu();            break;
+    case 'casino':      setupCasinoUI(); drawCasino();        break;
+    case 'inventory':   StoreMenu.drawInventory();            break;
     case 'powerups':    /** @todo @mfwolffe don't do below like that, inject it */
     case 'cosmetics':   StoreMenu.drawSubmenu(currentScreen === 'cosmetics' ? StoreMenu.cosmetics : StoreMenu.powerUps);
       break;
