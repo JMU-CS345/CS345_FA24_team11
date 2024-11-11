@@ -69,6 +69,7 @@ function drawRouletteGame() {
   textAlign(CENTER, CENTER);
   text("Roulette Game", width / 2, 200);
   // Add roulette game implementation here
+  
 }
 
 // function drawHighLowGame() {
