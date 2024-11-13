@@ -71,6 +71,17 @@ function drawBlackjackGame() {
   hideAllCasinoButtons();
 }
 
+function drawSlotsGame() {
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  text("Slots Game!!!!", width / 2, 200);
+  preloadSlots();
+  setupSlots();
+  drawSlotsGame();
+  displaySlot();
+  hideAllCasinoButtons();
+}
+
 function drawRouletteGame() {
   textSize(32);
   textAlign(CENTER, CENTER);
