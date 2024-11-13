@@ -179,7 +179,9 @@ class Game {
     if (!Game.MAP)
       alert("bad state; game not initialized by time of drawGame call");
 
-    Game.renderGrid();
+    adjustCamera(Game.player);
+    drawMap();
+    // Game.renderGrid();
     Game.MAP.renderCoins();
     Game.player.drawPlayer();
     Game.player.handlePlayerMovement();

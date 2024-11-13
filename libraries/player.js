@@ -161,6 +161,6 @@ class Player {
 
   collectCoin(block) {
     block.updateCoin(false);
-    GameMap.renderGrid();
+    // GameMap.renderGrid();  //  causes flickering when main map is drawn
   }
 }
