@@ -2,20 +2,23 @@ let blackjackButton, rouletteButton, storeButton;
 let currentCasinoScreen = "landing";
 highLowInitialized = false;
 
-
 function setupCasinoUI() {
   // Create buttons for casino interface
   blackjackButton = createButton("Blackjack");
-  blackjackButton.position(260, 400);
+  blackjackButton.position(260, 300);
   blackjackButton.mousePressed(navigateToBlackjack);
 
   highlowButton = createButton("High Low");
-  highlowButton.position(260, 500);
+  highlowButton.position(260, 400);
   highlowButton.mousePressed(navigateToHighLow);
 
   rouletteButton = createButton("Roulette");
-  rouletteButton.position(260, 600);
+  rouletteButton.position(260, 500);
   rouletteButton.mousePressed(navigateToRoulette);
+
+  rouletteButton = createButton("Slots");
+  rouletteButton.position(260, 600);
+  rouletteButton.mousePressed(navigateToSlots);
 
   storeButton = createButton("Store");
   storeButton.position(260, 700);
@@ -37,6 +40,10 @@ function drawCasino() {
       break;
     case "roulette":
       drawRouletteGame();
+      hideAllCasinoButtons();
+      break;
+    case "slots":
+      drawSlotsGame();
       hideAllCasinoButtons();
       break;
     case "highlow":
@@ -69,7 +76,6 @@ function drawRouletteGame() {
   textAlign(CENTER, CENTER);
   text("Roulette Game", width / 2, 200);
   // Add roulette game implementation here
-  
 }
 
 // function drawHighLowGame() {
@@ -86,6 +92,11 @@ function navigateToBlackjack() {
 function navigateToRoulette() {
   hideAllCasinoButtons();
   currentCasinoScreen = "roulette";
+}
+
+function navigateToSlots() {
+  hideAllCasinoButtons();
+  currentCasinoScreen = "slots";
 }
 
 function navigateToHighLow() {
