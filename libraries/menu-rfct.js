@@ -1,14 +1,14 @@
 
 
 /**
- * Description placeholder 
- * 
- * @class ClassName 
- * @typedef {ClassName} 
+ * Description placeholder
+ *
+ * @class ClassName
+ * @typedef {ClassName}
  * @author  Matt Wolffe
-            this is refactoring and 
+            this is refactoring and
             integration of Will Stroud's code)
- * @classdesc 
+ * @classdesc
  */
 class Menu {
   #message;
@@ -37,7 +37,8 @@ class Menu {
       { name: 'Speed Boost', price: 150, quantity: 0 },
       { name: 'Shield', price: 300, quantity: 0 },
       { name: 'Extra Life', price: 500, quantity: 0 },
-      { name: 'Double Jump', price: 250, quantity: 0 },
+      { name: 'Dash', price: 250, quantity: 0 },
+      { name: '2x Coins', price: 500, quantity: 0 },
       { name: 'Invisibility', price: 400, quantity: 0 },
       { name: 'Fire Resistance', price: 350, quantity: 0 }
     ];

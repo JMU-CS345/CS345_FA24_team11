@@ -65,7 +65,8 @@ let powerUps = [
   { name: 'Speed Boost', price: 150, quantity: 0 },
   { name: 'Shield', price: 300, quantity: 0 },
   { name: 'Extra Life', price: 500, quantity: 0 },
-  { name: 'Double Jump', price: 250, quantity: 0 },
+  { name: 'Dash', price: 250, quantity: 0 },
+  { name: '2x Coins', price: 500, quantity: 0 },
   { name: 'Invisibility', price: 400, quantity: 0 },
   { name: 'Fire Resistance', price: 350, quantity: 0 }
 ];
@@ -86,7 +87,7 @@ function draw() {
   // Set the background using the calculated color
   // background(backgroundColor.r, backgroundColor.g, backgroundColor.b);
   background("teal");
-  
+
   // Add a semi-transparent overlay to ensure text readability
   if (currentScreen === 'main') {
       push();
@@ -116,6 +117,9 @@ function draw() {
           break;
       case 'game':
           drawGame();
+          break;
+      case 'difficulty':
+          drawDifficultyMenu();
           break;
       case 'casino':
           if (!blackJackInit) {
@@ -173,7 +177,7 @@ function drawMainMenu() {
   imageMode(CENTER);
   // Draw image with a size of 200x200 pixels at the top of the menu
   image(raccoonImg, width/2 +400, 300, 400, 300);
-  
+
   // Add a subtle frame around the image
   noFill();
   stroke(255);
@@ -183,23 +187,24 @@ function drawMainMenu() {
 
 
   // Store button
-    drawButton('Casino', width/2, height/2 + 180 , 200, 80);
-
+  drawButton('Casino', width/2, height/2 + 180 , 200, 80);
 
   // Store button
   drawButton('Store', width/2, height/2 - 60, 200, 80);
-  
+
   // Inventory button
   drawButton('Inventory', width/2, height/2 + 60, 200, 80);
 
   drawButton('Play Game', width/2, height/2 - 180, 200, 80);
 
 }
+
+
 function drawGame() {
   if (!gameMap) {
     gameMap = new GameMap();
   }
-    
+
   // Draw the game map
   const map = gameMap.fetchMap();
   for (let i = 0; i < Game.YBLOCKS; i++) {
@@ -215,29 +220,29 @@ function drawGame() {
   Game.MAP.renderCoins();
   player.drawPlayer();
   player.handlePlayerMovement();
-  
-  // Back button
-  drawButton('Back', width/2, height - 45, 200, 50);
+
+  // // Back button
+  // drawButton('Back', width/2, height - 45, 200, 50);
 }
 
 function drawStoreMenu() {
   textSize(32);
   textAlign(CENTER, CENTER);
   text('BUY PRODUCTS!!!!! SPEND SPEND SPEND', width/2, 50);
-  
+
   // Cosmetics button
   drawButton('Cosmetics', width/4, height/2, 300, 100);
-  
+
   // Power-ups button
   drawButton('Power-ups', 3*width/4, height/2, 300, 100);
-  
+
   // Back button
   drawButton('Back', width/2, height - 45, 200, 50);
 }
 
 function drawSubmenu(items) {
   text(currentScreen.charAt(0).toUpperCase() + currentScreen.slice(1), width/2, 50);
-  
+
   // Clip the drawing area for scrolling
   push();
   translate(-scrollPosition, 0);
@@ -252,7 +257,7 @@ function drawSubmenu(items) {
       text(items[i].name, x + itemWidth/2, 140);
       textSize(20);
       text('$' + items[i].price, x + itemWidth/2, 180);
-      
+
       // Add a "Buy" button or "Owned" text
       if (currentScreen === 'cosmetics' && items[i].owned) {
         fill(150);
@@ -264,10 +269,10 @@ function drawSubmenu(items) {
     }
   }
   pop();
-  
+
   // Draw scroll arrows
   drawScrollArrows();
-  
+
   // Back button
   drawButton('Back', width/2, height - 45, 200, 50);
 }
@@ -276,28 +281,28 @@ function drawButton(label, x, y, w, h) {
   // Add button shadow for depth
   fill(0, 0, 0, 30);
   rect(x - w/2 + 4, y - h/2 + 4, w, h);
-  
+
   // Draw button with gradient effect
   const buttonColor = color(100, 200, 100);
   const highlightColor = color(120, 220, 120);
-  
+
   fill(buttonColor);
   if (mouseX > x - w/2 && mouseX < x + w/2 && mouseY > y - h/2 && mouseY < y + h/2) {
       fill(highlightColor);
   }
-  
+
   rect(x - w/2, y - h/2, w, h);
-  
+
   // Add slight inner shadow
   fill(0, 0, 0, 10);
   rect(x - w/2, y - h/2, w, 5);
-  
+
   // Draw text with shadow for better readability
   fill(0, 0, 0, 50);
   textAlign(CENTER, CENTER);
   textSize(24);
   text(label, x + 2, y + 2);
-  
+
   fill(0);
   text(label, x, y);
 }
@@ -305,23 +310,23 @@ function drawButton(label, x, y, w, h) {
 function drawInventory() {
   textSize(32);
   text('DESIGNER FASHION AND POWERUPS', width/2, 50);
-  
+
   let y = 100;
   textSize(24);
   text('Owned Cosmetics:', width/3, y);
   text('Power-ups:', 3*width/4, y);
-  
+
   y += 40;
   textSize(20);
   textAlign(LEFT, TOP);
-  
+
   // List owned cosmetics
   let ownedCosmetics = cosmetics.filter(item => item.owned);
   for (let item of ownedCosmetics) {
     text(item.name, 50, y);
     y += 30;
   }
-  
+
   // Reset y for power-ups
   y = 140;
   // List power-ups and quantities
@@ -329,7 +334,7 @@ function drawInventory() {
     text(`${item.name}: ${item.quantity}`, width/2 + 50, y);
     y += 30;
   }
-  
+
   // Back button
   drawButton('Back', width/2, height - 45, 200, 50);
 }
@@ -367,7 +372,7 @@ function mousePressed() {
       break;
     case 'casino':
       // handleCasinoMenuClick();
-      
+
       break;
     case 'game':
       handleGameClick();
@@ -384,7 +389,7 @@ function mousePressed() {
   function keyReleased() {
     console.log("here");
     console.log(key, keyCode);
-    
+
     if (currentScreen == 'casino') keyReleasedBlackJack();
   }
 

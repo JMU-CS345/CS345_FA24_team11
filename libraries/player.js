@@ -79,7 +79,7 @@ class Player {
     this.frameCount++;
     // Use different animation speeds based on movement state
     const currentAnimationSpeed = this.isMoving ? this.moveAnimationSpeed : this.idleAnimationSpeed;
-    
+
     if (this.frameCount >= currentAnimationSpeed) {
       // Always cycle through all frames, whether moving or idle
       const maxFrames = this.animations[this.facing].frames;
@@ -94,10 +94,10 @@ class Player {
       const animation = this.animations[this.facing];
       const sx = (this.currentFrame + animation.startFrame) * this.spriteWidth;
       const sy = animation.row * this.spriteHeight;
-      
+
       push();  // Save current rendering state
       noSmooth();  // Ensure pixel-perfect rendering
-      
+
       // Draw the current frame
       image(
         this.sprite,
@@ -110,7 +110,7 @@ class Player {
         this.spriteWidth,
         this.spriteHeight
       );
-      
+
       pop();  // Restore previous rendering state
     } catch (error) {
       // Fallback to simple rectangle if sprite fails to load
@@ -149,7 +149,7 @@ class Player {
     this.currency += change;
   }
 
-  /** 
+  /**
    * Concise collision check idea thanks to Alice MC (@alicmc)
    */
   checkCollectCoin() {
@@ -163,4 +163,5 @@ class Player {
     block.updateCoin(false);
     // GameMap.renderGrid();  //  causes flickering when main map is drawn
   }
+
 }

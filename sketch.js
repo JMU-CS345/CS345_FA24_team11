@@ -18,8 +18,8 @@ function setup() {
   game = new Game(1, 1280, 720);
   menu = new Menu(0.5);
 
-  // if you see the error thrown below 
-  // in console, you are likely just 
+  // if you see the error thrown below
+  // in console, you are likely just
   // missing an instance of a game.
   if (!Game.difficulty) throw new Error("Game not initialized");
 
@@ -37,6 +37,7 @@ function mousePressed() {
     case 'inventory': StoreMenu.handleInventoryClick();   break;
     case 'casino':    handleCasinoMenuClick();          break;
     case 'game':      Game.handleGameClick();             break;
+    case 'difficulty' : handleDifficultyClick();          break;
     }
 }
 
@@ -47,6 +48,7 @@ function draw() {
 
   switch(currentScreen) {
     case 'game':        Game.drawGame();                      break;
+    case 'difficulty':  drawDifficultyMenu();                 break;
     case 'main':        GameMenu.drawMenu();                  break;
     case 'store':       StoreMenu.drawStoreMenu();            break;
     case 'casino':      setupCasinoUI(); drawCasino();        break;
@@ -54,7 +56,7 @@ function draw() {
     case 'powerups':    /** @todo @mfwolffe don't do below like that, inject it */
     case 'cosmetics':   StoreMenu.drawSubmenu(currentScreen === 'cosmetics' ? StoreMenu.cosmetics : StoreMenu.powerUps);
       break;
-    default: 
+    default:
       console.log("BAD SCENE");
       break;
   }
