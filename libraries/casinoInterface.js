@@ -1,6 +1,7 @@
-let blackjackButton, rouletteButton, storeButton;
+let blackjackButton, rouletteButton, storeButton, slotsButton;
 let currentCasinoScreen = "landing";
 highLowInitialized = false;
+slotsInitialized = false;
 
 function setupCasinoUI() {
   // Create buttons for casino interface
@@ -16,9 +17,9 @@ function setupCasinoUI() {
   rouletteButton.position(260, 500);
   rouletteButton.mousePressed(navigateToRoulette);
 
-  rouletteButton = createButton("Slots");
-  rouletteButton.position(260, 600);
-  rouletteButton.mousePressed(navigateToSlots);
+  slotsButton = createButton("Slots");
+  slotsButton.position(260, 600);
+  slotsButton.mousePressed(navigateToSlots);
 
   storeButton = createButton("Store");
   storeButton.position(260, 700);
@@ -43,6 +44,10 @@ function drawCasino() {
       hideAllCasinoButtons();
       break;
     case "slots":
+      if (!slotsInitialized) {
+        setupSlots();
+        slotsInitialized = true;
+      }
       drawSlotsGame();
       hideAllCasinoButtons();
       break;
@@ -52,6 +57,7 @@ function drawCasino() {
         highLowInitialized = true; // Set the flag to prevent reinitialization
       }
       drawHighLowGame();
+      hideAllCasinoButtons();
       break;
   }
 }
@@ -75,10 +81,7 @@ function drawSlotsGame() {
   textSize(32);
   textAlign(CENTER, CENTER);
   text("Slots Game!!!!", width / 2, 200);
-  preloadSlots();
-  setupSlots();
-  drawSlotsGame();
-  displaySlot();
+  drawSlots();
   hideAllCasinoButtons();
 }
 
@@ -87,6 +90,7 @@ function drawRouletteGame() {
   textAlign(CENTER, CENTER);
   text("Roulette Game", width / 2, 200);
   // Add roulette game implementation here
+  hideAllCasinoButtons();
 }
 
 // function drawHighLowGame() {
@@ -125,6 +129,7 @@ function showAllCasinoButtons() {
   rouletteButton.show();
   storeButton.show();
   highlowButton.show();
+  slotsButton.show();
 }
 
 function hideAllCasinoButtons() {
@@ -132,4 +137,5 @@ function hideAllCasinoButtons() {
   rouletteButton.hide();
   storeButton.hide();
   highlowButton.hide();
+  slotsButton.hide();
 }
