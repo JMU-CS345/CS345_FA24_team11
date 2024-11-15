@@ -35,7 +35,7 @@ function mousePressed() {
     case 'cosmetics':
     case 'powerups':  StoreMenu.handleSubmenuClick();     break;
     case 'inventory': StoreMenu.handleInventoryClick();   break;
-    case 'casino':    handleCasinoMenuClick();          break;
+    case 'casino':    handleCasinoMenuClick();            break;
     case 'game':      Game.handleGameClick();             break;
     case 'difficulty' : handleDifficultyClick();          break;
     }
@@ -47,22 +47,22 @@ function keyPressed() {
   DashPowerUp.handleDashKeyPress(key);
 }
 
-// Display the coin multiplier timer if active
-if (Game.player.coinMultiplierTimer > 0) {
-  fill(255);
-  textSize(24);
-  textAlign(CENTER, CENTER);
-  text(`Coin Multiplier: ${Game.player.coinMultiplier}x (${Game.player.coinMultiplierTimer}s)`, width / 2, 50);
-}
+// // Display the coin multiplier timer if active
+// if (Game.player.coinMultiplierTimer > 0) {
+//   fill(255);
+//   textSize(24);
+//   textAlign(CENTER, CENTER);
+//   text(`Coin Multiplier: ${Game.player.coinMultiplier}x (${Game.player.coinMultiplierTimer}s)`, width / 2, 50);
+// }
 
-// Display message if messageTimer is active
-if (messageTimer > 0) {
-  fill(255);
-  textSize(24);
-  textAlign(CENTER, CENTER);
-  text(message, width / 2, height / 2);
-  messageTimer--;
-}
+// // Display message if messageTimer is active
+// if (messageTimer > 0) {
+//   fill(255);
+//   textSize(24);
+//   textAlign(CENTER, CENTER);
+//   text(message, width / 2, height / 2);
+//   messageTimer--;
+// }
 
 function draw() {
   /** @todo @mfwolffe don't call this here */

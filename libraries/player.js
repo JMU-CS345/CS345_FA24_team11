@@ -66,14 +66,24 @@ class Player {
   }
 
   useDashPowerUp() {
+    console.log('Player.useDashPowerUp called');
     const dashPowerUp = this.inventory.find(item => item instanceof DashPowerUp);
-    if (dashPowerUp && dashPowerUp.fetchQuantity() > 0) {
-      dashPowerUp.applyEffect();
-      dashPowerUp.updateQuantity(dashPowerUp.fetchQuantity() - 1);  // remove one from quantity
-      if (dashPowerUp.fetchQuantity() === 0) {
-        this.inventory = this.inventory.filter(item => item !== dashPowerUp);
+    if (dashPowerUp) {
+      console.log('DashPowerUp found in inventory');
+      if (dashPowerUp.fetchQuantity() > 0) {
+        console.log('DashPowerUp quantity:', dashPowerUp.fetchQuantity());
+        dashPowerUp.applyEffect();
+        dashPowerUp.updateQuantity(dashPowerUp.fetchQuantity() - 1);
+        console.log('DashPowerUp quantity after use:', dashPowerUp.fetchQuantity());
+        if (dashPowerUp.fetchQuantity() === 0) {
+          this.inventory = this.inventory.filter(item => item !== dashPowerUp);
+          console.log('DashPowerUp removed from inventory');
+        }
+      } else {
+        console.log('DashPowerUp quantity is 0');
       }
     } else {
+      console.log('DashPowerUp not found in inventory');
     }
   }
 

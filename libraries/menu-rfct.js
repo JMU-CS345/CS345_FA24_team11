@@ -38,7 +38,7 @@ class Menu {
       { name: 'Shield', price: 300, quantity: 0 },
       { name: 'Extra Life', price: 500, quantity: 0 },
       { name: 'Dash', price: 250, quantity: 0 },
-      { name: '2x Coins', price: 500, quantity: 0 },
+      { name: 'Coin Multiplier', price: 500, quantity: 0 },
       { name: 'Invisibility', price: 400, quantity: 0 },
       { name: 'Fire Resistance', price: 350, quantity: 0 }
     ];
