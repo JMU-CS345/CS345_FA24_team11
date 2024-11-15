@@ -25,6 +25,8 @@ class Player {
     this.ySpeed = ySpeed;
     this.health = health;
     this.currency = currency;
+    this.coinMultiplier = 1;
+    this.coinMultiplierTimer = 0;
     this.inventory = []; // TODO @mfwolffe regroup on inventory DS choice
 
     // Sprite and animation properties
@@ -45,6 +47,34 @@ class Player {
       right: { row: 3, frames: 16, startFrame: 0 },
       up: { row: 2, frames: 8, startFrame: 0 }
     };
+  }
+
+  useCoinMultiplier() {
+    console.log('Player.useCoinMultiplier called');
+    const coinMultiplier = this.inventory.find(item => item instanceof CoinMultiplier);
+    if (coinMultiplier && coinMultiplier.fetchQuantity() > 0) {
+      console.log('CoinMultiplier found in inventory');
+      coinMultiplier.applyEffect();
+      coinMultiplier.updateQuantity(coinMultiplier.fetchQuantity() - 1);
+      if (coinMultiplier.fetchQuantity() === 0) {
+        this.inventory = this.inventory.filter(item => item !== coinMultiplier);
+        console.log('CoinMultiplier removed from inventory');
+      }
+    } else {
+      console.log('CoinMultiplier not found or quantity is 0');
+    }
+  }
+
+  useDashPowerUp() {
+    const dashPowerUp = this.inventory.find(item => item instanceof DashPowerUp);
+    if (dashPowerUp && dashPowerUp.fetchQuantity() > 0) {
+      dashPowerUp.applyEffect();
+      dashPowerUp.updateQuantity(dashPowerUp.fetchQuantity() - 1);  // remove one from quantity
+      if (dashPowerUp.fetchQuantity() === 0) {
+        this.inventory = this.inventory.filter(item => item !== dashPowerUp);
+      }
+    } else {
+    }
   }
 
   handlePlayerMovement() {
