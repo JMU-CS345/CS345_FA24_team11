@@ -186,14 +186,13 @@ class Game {
     Game.player.drawPlayer();
     Game.player.handlePlayerMovement();
 
-    drawButton('Back', width/2, height - 45, 200, 50);
-
     const bill = () => { console.log("bill") }
-
 
     checkSquares({x: Game.player.xPos, y: Game.player.yPos, w: Game.BLOCKSIZE, h: Game.BLOCKSIZE}, {x: 20, y: 0, w: Game.BLOCKSIZE, h: Game.BLOCKSIZE}) && bill();
 
 
+    resetMatrix();  // back button tracks with camera
+    drawButton('Back', width/2, height - 45, 200, 50);
   }
 
   static startGame() {

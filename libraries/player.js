@@ -26,7 +26,6 @@ class Player {
     this.health = health;
     this.currency = currency;
     this.coinMultiplier = 1;
-    this.coinMultiplierTimer = 0;
     this.inventory = []; // TODO @mfwolffe regroup on inventory DS choice
 
     // Sprite and animation properties
@@ -47,18 +46,21 @@ class Player {
       right: { row: 3, frames: 16, startFrame: 0 },
       up: { row: 2, frames: 8, startFrame: 0 }
     };
+
+    // // TESTING adds 100 of each powerup to inventory
+    // for (let i = 0; i < 100; i++) {
+    //   this.inventory.push(new CoinMultiplier());
+    //   this.inventory.push(new DashPowerUp());
+    // }
   }
 
   useCoinMultiplier() {
-    console.log('Player.useCoinMultiplier called');
     const coinMultiplier = this.inventory.find(item => item instanceof CoinMultiplier);
     if (coinMultiplier && coinMultiplier.fetchQuantity() > 0) {
-      console.log('CoinMultiplier found in inventory');
       coinMultiplier.applyEffect();
       coinMultiplier.updateQuantity(coinMultiplier.fetchQuantity() - 1);
       if (coinMultiplier.fetchQuantity() === 0) {
         this.inventory = this.inventory.filter(item => item !== coinMultiplier);
-        console.log('CoinMultiplier removed from inventory');
       }
     } else {
       console.log('CoinMultiplier not found or quantity is 0');
@@ -66,18 +68,13 @@ class Player {
   }
 
   useDashPowerUp() {
-    console.log('Player.useDashPowerUp called');
     const dashPowerUp = this.inventory.find(item => item instanceof DashPowerUp);
     if (dashPowerUp) {
-      console.log('DashPowerUp found in inventory');
       if (dashPowerUp.fetchQuantity() > 0) {
-        console.log('DashPowerUp quantity:', dashPowerUp.fetchQuantity());
         dashPowerUp.applyEffect();
         dashPowerUp.updateQuantity(dashPowerUp.fetchQuantity() - 1);
-        console.log('DashPowerUp quantity after use:', dashPowerUp.fetchQuantity());
         if (dashPowerUp.fetchQuantity() === 0) {
           this.inventory = this.inventory.filter(item => item !== dashPowerUp);
-          console.log('DashPowerUp removed from inventory');
         }
       } else {
         console.log('DashPowerUp quantity is 0');
