@@ -12,6 +12,7 @@ function preload() {
   raccoonImg = loadImage('assets/raccoon.jpg');
   racoonSprite = loadImage('assets/raccoon.jpg');
   preloadSlots();
+  preloadCasino();
 }
 
 function setup() {
@@ -36,7 +37,7 @@ function mousePressed() {
     case 'cosmetics':
     case 'powerups':  StoreMenu.handleSubmenuClick();     break;
     case 'inventory': StoreMenu.handleInventoryClick();   break;
-    case 'casino':    handleCasinoMenuClick();          break;
+    case 'casino':    handleCasinoMenuClick();       break;
     case 'game':      Game.handleGameClick();             break;
     }
 }

@@ -1,141 +1,84 @@
-let blackjackButton, rouletteButton, storeButton, slotsButton;
-let currentCasinoScreen = "landing";
-highLowInitialized = false;
-slotsInitialized = false;
+let blackjackButton, highLowButton, rouletteButton, slotsButton, storeButton;
+let buttonWidth, buttonHeight, currentCasinoScreen;
+let highLowInitialized = false;
+let blackJackInitialized = false;
+
+function preloadCasino() {
+  buttonWidth = 200; // Define the width of each button
+  buttonHeight = 100; // Define the height of each button
+  currentCasinoScreen = "landing";
+  hideButtons();
+}
+
+// const buttonWidth = 200; // Define the width of each button
+// const buttonHeight = 100; // Define the height of each button
 
 function setupCasinoUI() {
-  // Create buttons for casino interface
-  blackjackButton = createButton("Blackjack");
-  blackjackButton.position(260, 300);
-  blackjackButton.mousePressed(navigateToBlackjack);
+  const centerY = height / 2; // Vertical center
+  const spacing = 220; // Horizontal spacing between buttons
 
-  highlowButton = createButton("High Low");
-  highlowButton.position(260, 400);
-  highlowButton.mousePressed(navigateToHighLow);
+  drawButton("Blackjack", width / 2 - 1.5 * spacing, centerY, 200, 80);
+  drawButton("High-Low", width / 2 - 0.5 * spacing, centerY, 200, 80);
+  drawButton("Roulette", width / 2 + 0.5 * spacing, centerY, 200, 80);
+  drawButton("Slots", width / 2 + 1.5 * spacing, centerY, 200, 80);
+  drawButton("Back", width / 2, height - 45, 200, 50);
+}
 
-  rouletteButton = createButton("Roulette");
-  rouletteButton.position(260, 500);
-  rouletteButton.mousePressed(navigateToRoulette);
-
-  slotsButton = createButton("Slots");
-  slotsButton.position(260, 600);
-  slotsButton.mousePressed(navigateToSlots);
-
-  storeButton = createButton("Store");
-  storeButton.position(260, 700);
-  storeButton.mousePressed(navigateToStore);
-
-  // Initially hide the buttons
-  hideAllCasinoButtons();
+function handleCasinoMenuClick() {
+  if (isButtonClicked(width / 2, height - 45, 200, 50)) {
+    console.log("Back to landing");
+    currentScreen = "main";
+    highLowInitialized = false;
+    blackJackInitialized = false;
+  } else if (isButtonClicked(width / 2 - 1.5 * 220, height / 2, 200, 80)) {
+    console.log("blackjack");
+    currentCasinoScreen = "blackjack";
+  } else if (isButtonClicked(width / 2 - 0.5 * 220, height / 2, 200, 80)) {
+    console.log("highlow");
+    currentCasinoScreen = "highlow";
+  } else if (isButtonClicked(width / 2 + 0.5 * 220, height / 2, 200, 80)) {
+    currentCasinoScreen = "roulette";
+  } else if (isButtonClicked(width / 2 + 1.5 * 220, height / 2, 200, 80)) {
+    currentCasinoScreen = "slots";
+  }
 }
 
 function drawCasino() {
   switch (currentCasinoScreen) {
     case "landing":
       drawLandingPage();
-      showAllCasinoButtons();
       break;
     case "blackjack":
-      drawBlackjackGame();
-      hideAllCasinoButtons();
+      if (!blackJackInitialized) {
+        setupBlackJack();
+        blackJackInitialized = true;
+      }
+      drawBlackJack();
       break;
     case "roulette":
-      drawRouletteGame();
-      hideAllCasinoButtons();
+      // drawRouletteGame();
       break;
     case "slots":
-      if (!slotsInitialized) {
-        setupSlots();
-        slotsInitialized = true;
-      }
-      drawSlotsGame();
-      hideAllCasinoButtons();
+      setupSlots();
+      drawSlots();
       break;
     case "highlow":
       if (!highLowInitialized) {
-        setupHighLowGame(); // Initialize the game only once
-        highLowInitialized = true; // Set the flag to prevent reinitialization
+        console.log("Setting up High Low");
+        setupHighLowGame();
+        highLowInitialized = true;
       }
       drawHighLowGame();
-      hideAllCasinoButtons();
+      break;
+    case "store":
+      drawStore();
       break;
   }
 }
 
 function drawLandingPage() {
-  textSize(32);
+  textSize(42);
   textAlign(CENTER, CENTER);
-  text("Welcome to the Casino!", width / 2, 200);
-}
-
-function drawBlackjackGame() {
-  textSize(32);
-  textAlign(CENTER, CENTER);
-  text("Blackjack Game!!!!", width / 2, 200);
-  setupBlackJack();
-  drawBlackJack();
-  hideAllCasinoButtons();
-}
-
-function drawSlotsGame() {
-  textSize(32);
-  textAlign(CENTER, CENTER);
-  text("Slots Game!!!!", width / 2, 200);
-  drawSlots();
-  hideAllCasinoButtons();
-}
-
-function drawRouletteGame() {
-  textSize(32);
-  textAlign(CENTER, CENTER);
-  text("Roulette Game", width / 2, 200);
-  // Add roulette game implementation here
-  hideAllCasinoButtons();
-}
-
-// function drawHighLowGame() {
-//   textSize(32);
-//   textAlign(CENTER, CENTER);
-//   text("High Low Game", width / 2, 200);
-//   // Add high-low game implementation here
-// }
-
-function navigateToBlackjack() {
-  currentCasinoScreen = "blackjack";
-}
-
-function navigateToRoulette() {
-  hideAllCasinoButtons();
-  currentCasinoScreen = "roulette";
-}
-
-function navigateToSlots() {
-  hideAllCasinoButtons();
-  currentCasinoScreen = "slots";
-}
-
-function navigateToHighLow() {
-  hideAllCasinoButtons();
-  currentCasinoScreen = "highlow";
-}
-
-function navigateToStore() {
-  hideAllCasinoButtons();
-  currentScreen = "store"; // This will communicate with the main menu system
-}
-
-function showAllCasinoButtons() {
-  blackjackButton.show();
-  rouletteButton.show();
-  storeButton.show();
-  highlowButton.show();
-  slotsButton.show();
-}
-
-function hideAllCasinoButtons() {
-  blackjackButton.hide();
-  rouletteButton.hide();
-  storeButton.hide();
-  highlowButton.hide();
-  slotsButton.hide();
+  fill(color(212, 175, 55));
+  text("Welcome to Raccoon Royale!", width / 2, 100);
 }
