@@ -371,8 +371,7 @@ function mousePressed() {
       handleInventoryClick();
       break;
     case 'casino':
-      // handleCasinoMenuClick();
-
+      handleCasinoMenuClick();
       break;
     case 'game':
       handleGameClick();

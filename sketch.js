@@ -11,6 +11,7 @@ function preload() {
   coinSprite = loadImage('assets/coin.gif');
   raccoonImg = loadImage('assets/raccoon.jpg');
   racoonSprite = loadImage('assets/raccoon.jpg');
+  preloadSlots();
 }
 
 function setup() {

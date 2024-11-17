@@ -1,21 +1,25 @@
-let blackjackButton, rouletteButton, storeButton;
+let blackjackButton, rouletteButton, storeButton, slotsButton;
 let currentCasinoScreen = "landing";
 highLowInitialized = false;
-
+slotsInitialized = false;
 
 function setupCasinoUI() {
   // Create buttons for casino interface
   blackjackButton = createButton("Blackjack");
-  blackjackButton.position(260, 400);
+  blackjackButton.position(260, 300);
   blackjackButton.mousePressed(navigateToBlackjack);
 
   highlowButton = createButton("High Low");
-  highlowButton.position(260, 500);
+  highlowButton.position(260, 400);
   highlowButton.mousePressed(navigateToHighLow);
 
   rouletteButton = createButton("Roulette");
-  rouletteButton.position(260, 600);
+  rouletteButton.position(260, 500);
   rouletteButton.mousePressed(navigateToRoulette);
+
+  slotsButton = createButton("Slots");
+  slotsButton.position(260, 600);
+  slotsButton.mousePressed(navigateToSlots);
 
   storeButton = createButton("Store");
   storeButton.position(260, 700);
@@ -39,12 +43,21 @@ function drawCasino() {
       drawRouletteGame();
       hideAllCasinoButtons();
       break;
+    case "slots":
+      if (!slotsInitialized) {
+        setupSlots();
+        slotsInitialized = true;
+      }
+      drawSlotsGame();
+      hideAllCasinoButtons();
+      break;
     case "highlow":
       if (!highLowInitialized) {
         setupHighLowGame(); // Initialize the game only once
         highLowInitialized = true; // Set the flag to prevent reinitialization
       }
       drawHighLowGame();
+      hideAllCasinoButtons();
       break;
   }
 }
@@ -64,12 +77,20 @@ function drawBlackjackGame() {
   hideAllCasinoButtons();
 }
 
+function drawSlotsGame() {
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  text("Slots Game!!!!", width / 2, 200);
+  drawSlots();
+  hideAllCasinoButtons();
+}
+
 function drawRouletteGame() {
   textSize(32);
   textAlign(CENTER, CENTER);
   text("Roulette Game", width / 2, 200);
   // Add roulette game implementation here
-  
+  hideAllCasinoButtons();
 }
 
 // function drawHighLowGame() {
@@ -88,6 +109,11 @@ function navigateToRoulette() {
   currentCasinoScreen = "roulette";
 }
 
+function navigateToSlots() {
+  hideAllCasinoButtons();
+  currentCasinoScreen = "slots";
+}
+
 function navigateToHighLow() {
   hideAllCasinoButtons();
   currentCasinoScreen = "highlow";
@@ -103,6 +129,7 @@ function showAllCasinoButtons() {
   rouletteButton.show();
   storeButton.show();
   highlowButton.show();
+  slotsButton.show();
 }
 
 function hideAllCasinoButtons() {
@@ -110,4 +137,5 @@ function hideAllCasinoButtons() {
   rouletteButton.hide();
   storeButton.hide();
   highlowButton.hide();
+  slotsButton.hide();
 }
