@@ -2,6 +2,7 @@ let blackjackButton, highLowButton, rouletteButton, slotsButton, storeButton;
 let buttonWidth, buttonHeight, currentCasinoScreen;
 let highLowInitialized = false;
 let blackJackInitialized = false;
+let slotsInitialized = false;
 
 function preloadCasino() {
   buttonWidth = 200; // Define the width of each button
@@ -17,31 +18,40 @@ function setupCasinoUI() {
   const centerY = height / 2; // Vertical center
   const spacing = 220; // Horizontal spacing between buttons
 
-  drawButton("Blackjack", width / 2 - 1.5 * spacing, centerY, 200, 80);
-  drawButton("High-Low", width / 2 - 0.5 * spacing, centerY, 200, 80);
-  drawButton("Roulette", width / 2 + 0.5 * spacing, centerY, 200, 80);
-  drawButton("Slots", width / 2 + 1.5 * spacing, centerY, 200, 80);
+  drawButton("Blackjack", width / 2 - 2 * spacing, centerY, 200, 80);
+  drawButton("High-Low", width / 2 - spacing, centerY, 200, 80);
+  drawButton("Roulette", width / 2, centerY, 200, 80);
+  drawButton("Slots", width / 2 + spacing, centerY, 200, 80);
+  drawButton("Keno", width / 2 + 2 * spacing, centerY, 200, 80);
   drawButton("Back", width / 2, height - 45, 200, 50);
 }
 
 function handleCasinoMenuClick() {
+  const spacing = 220; // Horizontal spacing between buttons
+
   if (isButtonClicked(width / 2, height - 45, 200, 50)) {
     console.log("Back to landing");
     currentScreen = "main";
     highLowInitialized = false;
     blackJackInitialized = false;
-  } else if (isButtonClicked(width / 2 - 1.5 * 220, height / 2, 200, 80)) {
+  } else if (isButtonClicked(width / 2 - 2 * spacing, height / 2, 200, 80)) {
     console.log("blackjack");
     currentCasinoScreen = "blackjack";
-  } else if (isButtonClicked(width / 2 - 0.5 * 220, height / 2, 200, 80)) {
+  } else if (isButtonClicked(width / 2 - spacing, height / 2, 200, 80)) {
     console.log("highlow");
     currentCasinoScreen = "highlow";
-  } else if (isButtonClicked(width / 2 + 0.5 * 220, height / 2, 200, 80)) {
+  } else if (isButtonClicked(width / 2, height / 2, 200, 80)) {
+    console.log("roulette");
     currentCasinoScreen = "roulette";
-  } else if (isButtonClicked(width / 2 + 1.5 * 220, height / 2, 200, 80)) {
+  } else if (isButtonClicked(width / 2 + spacing, height / 2, 200, 80)) {
+    console.log("slots");
     currentCasinoScreen = "slots";
+  } else if (isButtonClicked(width / 2 + 2 * spacing, height / 2, 200, 80)) {
+    console.log("keno");
+    currentCasinoScreen = "keno";
   }
 }
+
 
 function drawCasino() {
   switch (currentCasinoScreen) {
@@ -59,7 +69,10 @@ function drawCasino() {
       // drawRouletteGame();
       break;
     case "slots":
-      setupSlots();
+      if (!slotsInitialized) {
+        setupSlots();
+        slotsInitialized = true;
+      }
       drawSlots();
       break;
     case "highlow":
