@@ -7,7 +7,7 @@ function preloadCasino() {
   buttonWidth = 200; // Define the width of each button
   buttonHeight = 100; // Define the height of each button
   currentCasinoScreen = "landing";
-  hideButtons();
+  // hideButtons();
 }
 
 // const buttonWidth = 200; // Define the width of each button
