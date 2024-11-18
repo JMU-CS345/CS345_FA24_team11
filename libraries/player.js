@@ -189,12 +189,19 @@ class Player {
   /**
    * Concise collision check idea thanks to Alice MC (@alicmc)
    */
+  // checkCollectCoin() {
+  //   let i = Math.floor(this.xPos / Game.BLOCKSIZE);
+  //   let j = Math.floor(this.yPos / Game.BLOCKSIZE);
+  //   let block = Game.MAP.fetchBlock(i, j);
+  //   return block.checkCoin() ? block : null;
+  // }
+
   checkCollectCoin() {
-    let i = Math.floor(this.xPos / Game.BLOCKSIZE);
-    let j = Math.floor(this.yPos / Game.BLOCKSIZE);
-    let block = Game.MAP.fetchBlock(i, j);
-    return block.checkCoin() ? block : null;
-  }
+    const boo = () => { console.log("yo")}
+    if (smallHadronCollider(this, Game.MAP.fetchMap())) boo();
+      }
+
+
 
   collectCoin(block) {
     block.updateCoin(false);
