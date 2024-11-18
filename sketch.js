@@ -44,8 +44,12 @@ function mousePressed() {
 }
 
 function keyPressed() {
-  CoinMultiplier.handleCoinKeyPress(key);
-  DashPowerUp.handleDashKeyPress(key);
+  if (currentScreen == 'game') {
+    CoinMultiplier.handleCoinKeyPress(key);
+    DashPowerUp.handleDashKeyPress(key);
+  } 
+
+  if (currentCasinoScreen == 'blackjack') keyPressedBlackJack(keyCode);
 }
 
 function draw() {
