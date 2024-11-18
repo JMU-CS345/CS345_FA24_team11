@@ -122,12 +122,12 @@ function draw() {
           drawDifficultyMenu();
           break;
       case 'casino':
-          if (!blackJackInit) {
-            setupBlackJack()
-            blackJackInit = true;
-          }
-          drawBlackJack();
-          break;
+          // if (!blackJackInit) {
+          //   setupBlackJack()
+          //   blackJackInit = true;
+          // }
+          // drawBlackJack();
+          // break;
   }
 
 
@@ -401,10 +401,7 @@ function mousePressed() {
       currentScreen = 'inventory';
     } else if (isButtonClicked(width/2, height/2 + 180, 200, 80)) {  // Casino button
       currentScreen = 'casino';
-      currentCasinoScreen = 'landing';
-      // setupBlackJack();
-      // drawBlackJack();
-      // showAllCasinoButtons();
+      // currentCasinoScreen = 'landing';
     }
   }
 
