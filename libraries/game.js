@@ -25,7 +25,7 @@ let blackJackInit = false;
  * @author Matt Wolffe @mfwolffe, ** ADD YOURSELF IF YOU EDIT **
  * @classdesc most properties are bound during runtime and are procedurally
  *            decided based on user-selected difficulty.
- *            A consequence of this is a lot of editors' intellisense or 
+ *            A consequence of this is a lot of editors' intellisense or
  *            whatever flavor of code completion you prefer will likely not
  *            pick up their existence and not suggest "`BLOCKSIZE`" while typing
  *            the below arbitrary line of code:
@@ -47,7 +47,7 @@ class Game {
     //        be instantiated before trying to access
     //        through class - this provides a quick check
     //        for uninstantiated game
-    // 
+    //
     Object.defineProperty(Game, 'difficulty', {
       value: difficulty,
       writable: true,
@@ -59,7 +59,7 @@ class Game {
       ...WEC,
     });
 
-    // SEEME  These props need more consideration 
+    // SEEME  These props need more consideration
     Object.defineProperty(Game, 'LANEWIDTH', {
       value: Game.BLOCKSIZE * 2,
       ...WEC,
@@ -105,11 +105,11 @@ class Game {
       ...WEC,
     });
 
-    // TODO need to consider if lane block offsets 
+    // TODO need to consider if lane block offsets
     //      should be randomized
-    //      in addition to whether there should be 
+    //      in addition to whether there should be
     //      multiple blocks on higher difficulties
-    // 
+    //
     Object.defineProperty(Game, "LANEOFFSET", {
       value: Game.CANVAS.HEIGHT / 4,
       ...WEC,
@@ -139,7 +139,7 @@ class Game {
 
     Object.defineProperty(Game, "STARTX", {
       // value: width / 2 - Game.BLOCKSIZE / 2,
-      value: 0, 
+      value: 0,
       ...WEC,
     });
     Object.defineProperty(Game, "STARTY", {
@@ -185,15 +185,14 @@ class Game {
     Game.MAP.renderCoins();
     Game.player.drawPlayer();
     Game.player.handlePlayerMovement();
-    
-    drawButton('Back', width/2, height - 45, 200, 50);
 
     const bill = () => { console.log("bill") }
-
 
     checkSquares({x: Game.player.xPos, y: Game.player.yPos, w: Game.BLOCKSIZE, h: Game.BLOCKSIZE}, {x: 20, y: 0, w: Game.BLOCKSIZE, h: Game.BLOCKSIZE}) && bill();
 
 
+    resetMatrix();  // back button tracks with camera
+    drawButton('Back', width/2, height - 45, 200, 50);
   }
 
   static startGame() {
@@ -204,10 +203,10 @@ class Game {
     console.log(Game.MAP.fetchMap());
     if (isButtonClicked(width/2, height - 45, 200, 50)) {
       currentScreen = 'main';
-      
+
       Game.MAP.clearCoins();
       Game.MAP.populateCoins();
-      
+
     }
   }
 
@@ -219,4 +218,6 @@ class Game {
       }
     }
   }
+
+
 }

@@ -25,6 +25,7 @@ class Player {
     this.ySpeed = ySpeed;
     this.health = health;
     this.currency = currency;
+    this.coinMultiplier = 1;
     this.inventory = []; // TODO @mfwolffe regroup on inventory DS choice
 
     // Sprite and animation properties
@@ -45,6 +46,42 @@ class Player {
       right: { row: 3, frames: 16, startFrame: 0 },
       up: { row: 2, frames: 8, startFrame: 0 }
     };
+
+    // // TESTING adds 100 of each powerup to inventory
+    // for (let i = 0; i < 100; i++) {
+    //   this.inventory.push(new CoinMultiplier());
+    //   this.inventory.push(new DashPowerUp());
+    // }
+  }
+
+  useCoinMultiplier() {
+    const coinMultiplier = this.inventory.find(item => item instanceof CoinMultiplier);
+    if (coinMultiplier && coinMultiplier.fetchQuantity() > 0) {
+      coinMultiplier.applyEffect();
+      coinMultiplier.updateQuantity(coinMultiplier.fetchQuantity() - 1);
+      if (coinMultiplier.fetchQuantity() === 0) {
+        this.inventory = this.inventory.filter(item => item !== coinMultiplier);
+      }
+    } else {
+      console.log('CoinMultiplier not found or quantity is 0');
+    }
+  }
+
+  useDashPowerUp() {
+    const dashPowerUp = this.inventory.find(item => item instanceof DashPowerUp);
+    if (dashPowerUp) {
+      if (dashPowerUp.fetchQuantity() > 0) {
+        dashPowerUp.applyEffect();
+        dashPowerUp.updateQuantity(dashPowerUp.fetchQuantity() - 1);
+        if (dashPowerUp.fetchQuantity() === 0) {
+          this.inventory = this.inventory.filter(item => item !== dashPowerUp);
+        }
+      } else {
+        console.log('DashPowerUp quantity is 0');
+      }
+    } else {
+      console.log('DashPowerUp not found in inventory');
+    }
   }
 
   handlePlayerMovement() {
@@ -79,7 +116,7 @@ class Player {
     this.frameCount++;
     // Use different animation speeds based on movement state
     const currentAnimationSpeed = this.isMoving ? this.moveAnimationSpeed : this.idleAnimationSpeed;
-    
+
     if (this.frameCount >= currentAnimationSpeed) {
       // Always cycle through all frames, whether moving or idle
       const maxFrames = this.animations[this.facing].frames;
@@ -94,10 +131,10 @@ class Player {
       const animation = this.animations[this.facing];
       const sx = (this.currentFrame + animation.startFrame) * this.spriteWidth;
       const sy = animation.row * this.spriteHeight;
-      
+
       push();  // Save current rendering state
       noSmooth();  // Ensure pixel-perfect rendering
-      
+
       // Draw the current frame
       image(
         this.sprite,
@@ -110,7 +147,7 @@ class Player {
         this.spriteWidth,
         this.spriteHeight
       );
-      
+
       pop();  // Restore previous rendering state
     } catch (error) {
       // Fallback to simple rectangle if sprite fails to load
@@ -149,7 +186,7 @@ class Player {
     this.currency += change;
   }
 
-  /** 
+  /**
    * Concise collision check idea thanks to Alice MC (@alicmc)
    */
   checkCollectCoin() {
@@ -163,4 +200,5 @@ class Player {
     block.updateCoin(false);
     // GameMap.renderGrid();  //  causes flickering when main map is drawn
   }
+
 }
