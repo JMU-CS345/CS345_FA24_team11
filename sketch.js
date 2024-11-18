@@ -71,6 +71,6 @@ function draw() {
       break;
   }
 
-  let block;
-  (block = Game.player.checkCollectCoin()) && Game.player.collectCoin(block);
+  // let block;
+  // (block = Game.player.checkCollectCoin()) && Game.player.collectCoin(block);
 }
