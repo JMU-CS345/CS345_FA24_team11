@@ -75,6 +75,10 @@ function drawCasino() {
       }
       drawSlots();
       break;
+    case "keno":
+      setupKeno();
+      drawKeno();
+      break;
     case "highlow":
       if (!highLowInitialized) {
         console.log("Setting up High Low");
