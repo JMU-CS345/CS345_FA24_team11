@@ -4,11 +4,11 @@ const DEFAULTCURRENCY = 100;
 
 /**
  * Player model with sprite animation and movement
- *
- * @class Player
- * @typedef {Player}
- * @author Matt Wolffe @mfwolffe, @stroudw
- */
+*
+* @class Player
+* @typedef {Player}
+* @author Matt Wolffe @mfwolffe, @stroudw
+*/
 class Player {
   constructor(
     xPos = Game.STARTX,
@@ -19,8 +19,11 @@ class Player {
     currency = DEFAULTCURRENCY
   ) {
     // Position and movement properties
+    this.moveLength = Game.BLOCKSIZE * 4;
     this.xPos = xPos;
     this.yPos = yPos;
+    this.targetX = xPos;
+    this.targetY = yPos;
     this.xSpeed = xSpeed;
     this.ySpeed = ySpeed;
     this.health = health;
@@ -39,6 +42,8 @@ class Player {
     this.facing = 'down';          // Default facing direction
     this.isMoving = false;         // Track movement state
 
+    this.moveLength = Game.BLOCKSIZE * 4;
+    
     // Animation frames mapping
     this.animations = {
       down: { row: 7, frames: 8, startFrame: 0 },
@@ -46,70 +51,78 @@ class Player {
       right: { row: 3, frames: 16, startFrame: 0 },
       up: { row: 2, frames: 8, startFrame: 0 }
     };
-
+    
     // // TESTING adds 100 of each powerup to inventory
     // for (let i = 0; i < 100; i++) {
-    //   this.inventory.push(new CoinMultiplier());
-    //   this.inventory.push(new DashPowerUp());
-    // }
-  }
-
-  useCoinMultiplier() {
-    const coinMultiplier = this.inventory.find(item => item instanceof CoinMultiplier);
-    if (coinMultiplier && coinMultiplier.fetchQuantity() > 0) {
-      coinMultiplier.applyEffect();
-      coinMultiplier.updateQuantity(coinMultiplier.fetchQuantity() - 1);
-      if (coinMultiplier.fetchQuantity() === 0) {
-        this.inventory = this.inventory.filter(item => item !== coinMultiplier);
-      }
-    } else {
-      console.log('CoinMultiplier not found or quantity is 0');
+      //   this.inventory.push(new CoinMultiplier());
+      //   this.inventory.push(new DashPowerUp());
+      // }
     }
-  }
-
-  useDashPowerUp() {
-    const dashPowerUp = this.inventory.find(item => item instanceof DashPowerUp);
-    if (dashPowerUp) {
-      if (dashPowerUp.fetchQuantity() > 0) {
-        dashPowerUp.applyEffect();
-        dashPowerUp.updateQuantity(dashPowerUp.fetchQuantity() - 1);
-        if (dashPowerUp.fetchQuantity() === 0) {
-          this.inventory = this.inventory.filter(item => item !== dashPowerUp);
+    
+    useCoinMultiplier() {
+      const coinMultiplier = this.inventory.find(item => item instanceof CoinMultiplier);
+      if (coinMultiplier && coinMultiplier.fetchQuantity() > 0) {
+        coinMultiplier.applyEffect();
+        coinMultiplier.updateQuantity(coinMultiplier.fetchQuantity() - 1);
+        if (coinMultiplier.fetchQuantity() === 0) {
+          this.inventory = this.inventory.filter(item => item !== coinMultiplier);
         }
       } else {
-        console.log('DashPowerUp quantity is 0');
+        console.log('CoinMultiplier not found or quantity is 0');
       }
-    } else {
-      console.log('DashPowerUp not found in inventory');
     }
-  }
-
-  handlePlayerMovement() {
-    this.isMoving = false;
-
-    if (keyIsDown(DOWN_ARROW)) {
-      this.updatePlayerYPos(this.ySpeed);
-      this.facing = 'down';
-      this.isMoving = true;
+    
+    useDashPowerUp() {
+      const dashPowerUp = this.inventory.find(item => item instanceof DashPowerUp);
+      if (dashPowerUp) {
+        if (dashPowerUp.fetchQuantity() > 0) {
+          dashPowerUp.applyEffect();
+          dashPowerUp.updateQuantity(dashPowerUp.fetchQuantity() - 1);
+          if (dashPowerUp.fetchQuantity() === 0) {
+            this.inventory = this.inventory.filter(item => item !== dashPowerUp);
+          }
+        } else {
+          console.log('DashPowerUp quantity is 0');
+        }
+      } else {
+        console.log('DashPowerUp not found in inventory');
+      }
     }
-    if (keyIsDown(UP_ARROW)) {
-      this.updatePlayerYPos(-this.ySpeed);
-      this.facing = 'up';
-      this.isMoving = true;
-    }
-    if (keyIsDown(RIGHT_ARROW)) {
-      this.updatePlayerXPos(this.xSpeed);
-      this.facing = 'right';
-      this.isMoving = true;
-    }
-    if (keyIsDown(LEFT_ARROW)) {
-      this.updatePlayerXPos(-this.xSpeed);
-      this.facing = 'left';
-      this.isMoving = true;
-    }
+    
+    handlePlayerMovement() {
+      if (this.isMoving) {
+        console.log('Player is currently moving, skipping movement.');
+        return; // Prevent multiple movements
+      }
+      
+      if (keyIsDown(DOWN_ARROW)) {
+        console.log('Moving down');
+        this.updatePlayerYPos(this.moveLength);
+        this.facing = 'down';
+        this.isMoving = true;
+      } else if (keyIsDown(UP_ARROW)) {
+        console.log('Moving up');
+        this.updatePlayerYPos(-this.moveLength);
+        this.facing = 'up';
+        this.isMoving = true;
+      } else if (keyIsDown(RIGHT_ARROW)) {
+        console.log('Moving right');
+        this.updatePlayerXPos(this.moveLength);
+        this.facing = 'right';
+        this.isMoving = true;
+      } else if (keyIsDown(LEFT_ARROW)) {
+        console.log('Moving left');
+        this.updatePlayerXPos(-this.moveLength);
+        this.facing = 'left';
+        this.isMoving = true;
+      }
 
     // Always update animation, whether moving or idle
     this.updateAnimation();
+  }
+
+  keyReleased() {
+    this.isMoving = false; // Allow movement again when key is released
   }
 
   updateAnimation() {
@@ -126,6 +139,7 @@ class Player {
   }
 
   drawPlayer() {
+
     try {
       // Calculate source rectangle from sprite sheet
       const animation = this.animations[this.facing];

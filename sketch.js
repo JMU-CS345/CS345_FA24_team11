@@ -43,6 +43,12 @@ function mousePressed() {
     }
 }
 
+function keyReleased() {
+  if (currentScreen == 'game') {
+    Game.player.keyReleased();
+  }
+}
+
 function keyPressed() {
   if (currentScreen == 'game') {
     CoinMultiplier.handleCoinKeyPress(key);
