@@ -22,7 +22,6 @@ function preload() {
 
   preloadCasino();
   preloadSlots();
-  // preloadMapGraphics();
 }
 
 function setup() {

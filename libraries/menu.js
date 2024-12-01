@@ -14,11 +14,6 @@ let blackJackInit = false;
 
 // Add preload function to load the image before setup
 function preload() {
-  // roadImg = loadImage('assets/mapGraphics/middleRoad.png');
-  // sidewalkImg = loadImage('assets/mapGraphics/middleSidewalk.png');
-  // grassImg = loadImage('assets/mapGraphics/middleGrass.png');
-  // waterImg = loadImage('assets/mapGraphics/middleWater.png');
-  // casinoImg = loadImage('assets/mapGraphics/casino.png');
   coinSprite = loadImage('assets/coin.gif');
   raccoonImg = loadImage('libraries/raccoon.jpg'); // Update with your actual image path
 }
