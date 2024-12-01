@@ -5,14 +5,24 @@ let game, menu;
 let coinSprite;
 let raccoonImg;
 let racoonSprite;
+let roadBotImg, roadTopImg, sidewalkImg, grassImg, waterImg, carpetImg;
 
 function preload() {
   /* LOAD SPRITES HERE */
   coinSprite = loadImage('assets/coin.gif');
   raccoonImg = loadImage('assets/raccoon.jpg');
   racoonSprite = loadImage('assets/raccoon.jpg');
-  preloadSlots();
+  roadBotImg = loadImage('assets/mapGraphics/roadBot.png');
+  roadTopImg = loadImage('assets/mapGraphics/roadTop.png');
+  sidewalkImg = loadImage('assets/mapGraphics/sidewalk2.png');
+  grassImg = loadImage('assets/mapGraphics/grass.png');
+  waterImg = loadImage('assets/mapGraphics/water2.png');
+  carpetImg = loadImage('assets/mapGraphics/redCarpet.png');
+  // casinoImg = loadImage('assets/mapGraphics/casino.png');
+
   preloadCasino();
+  preloadSlots();
+  // preloadMapGraphics();
 }
 
 function setup() {
@@ -28,6 +38,8 @@ function setup() {
   /* ADD STUFF THAT DEPENDS ON `Game` BELOW HERE AS NEEDED */
   createCanvas(Game.CANVAS.WIDTH, Game.CANVAS.HEIGHT);
   textAlign(CENTER, CENTER);
+
+  setupTileTypes();
 }
 
 function mousePressed() {
@@ -53,7 +65,7 @@ function keyPressed() {
   if (currentScreen == 'game') {
     CoinMultiplier.handleCoinKeyPress(key);
     DashPowerUp.handleDashKeyPress(key);
-  } 
+  }
 
   if (currentCasinoScreen == 'blackjack') keyPressedBlackJack(keyCode);
 }
