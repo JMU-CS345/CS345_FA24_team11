@@ -33,6 +33,7 @@ class Player {
 
     // Sprite and animation properties
     this.sprite = loadImage('assets/rSprite.png');
+    
     this.spriteWidth = 32;  // fixed cannot be changed
     this.spriteHeight = 32;
     this.currentFrame = 0;
