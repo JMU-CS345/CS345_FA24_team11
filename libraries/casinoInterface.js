@@ -1,8 +1,9 @@
-let blackjackButton, highLowButton, rouletteButton, slotsButton, storeButton;
+
 let buttonWidth, buttonHeight, currentCasinoScreen;
 let highLowInitialized = false;
 let blackJackInitialized = false;
 let slotsInitialized = false;
+let rouletteInitialized = false;
 
 function preloadCasino() {
   width = 200; // Define the width of each button
@@ -67,7 +68,12 @@ function drawCasino() {
       drawBlackJack();xw
       break;
     case "roulette":
-      // drawRouletteGame();
+      if (!rouletteInitialized) {
+        console.log("Setting up Roulette");
+        setupRouletteGame();
+        rouletteInitialized = true;
+      }
+      drawRouletteGame();
       break;
     case "slots":
       if (!slotsInitialized) {

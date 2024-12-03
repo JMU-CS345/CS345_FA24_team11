@@ -1,9 +1,9 @@
 // Every nine rows is an entire screen of the game
 const mainMap = [
   [1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
   [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
@@ -13,21 +13,26 @@ const mainMap = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 ];
 
-const tileTypes = {
-  0: { type: 'road', color: [50, 50, 50] },
-  1: { type: 'sidewalk', color: [169, 169, 169] },
-  2: { type: 'grass', color: [34, 139, 34] },
-  3: { type: 'water', color: [70, 130, 180] },
-  4: { type: 'casino', color: [255, 215, 0] },
-};
+let tileTypes;
+
+function setupTileTypes() {
+  tileTypes = {
+    0: { type: 'roadTop', color: [50, 50, 50], img: roadTopImg },
+    1: { type: 'sidewalk', color: [169, 169, 169], img: sidewalkImg },
+    2: { type: 'grass', color: [34, 139, 34], img: grassImg },
+    3: { type: 'water', color: [70, 130, 180], img: waterImg },
+    4: { type: 'redCarpet', color: [255, 215, 0], img: carpetImg },
+    5: { type: 'roadBot', color: [50, 50, 50], img: roadBotImg },
+  };
+}
 
 function drawMap() {
   const rows = mainMap.length;
@@ -40,9 +45,13 @@ function drawMap() {
       const tileType = mainMap[i][j];
       const tile = tileTypes[tileType];
 
-      noStroke();
-      fill(tile.color);
-      rect(j * tileWidth, i * tileHeight, tileWidth, tileHeight);
+      if (tile && tile.img) {
+        image(tile.img, j * tileWidth, i * tileHeight, tileWidth, tileHeight);
+      } else {
+        noStroke();
+        fill(200); // Default color if image is not available
+        rect(j * tileWidth, i * tileHeight, tileWidth, tileHeight);
+      }
     }
   }
 }
