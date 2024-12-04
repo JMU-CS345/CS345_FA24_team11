@@ -18,6 +18,7 @@ function preload() {
   grassImg = loadImage('assets/mapGraphics/grass.png');
   waterImg = loadImage('assets/mapGraphics/water2.png');
   carpetImg = loadImage('assets/mapGraphics/redCarpet.png');
+  bridgeImg = loadImage('assets/mapGraphics/bridge.png');
   // casinoImg = loadImage('assets/mapGraphics/casino.png');
 
   preloadCasino();
@@ -64,6 +65,7 @@ function keyPressed() {
   if (currentScreen == 'game') {
     CoinMultiplier.handleCoinKeyPress(key);
     DashPowerUp.handleDashKeyPress(key);
+    ShieldPowerUp.handleShieldKeyPress(key);
   }
 
   if (currentCasinoScreen == 'blackjack') keyPressedBlackJack(keyCode);
