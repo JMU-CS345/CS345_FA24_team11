@@ -64,18 +64,24 @@ class Player {
     canMoveTo(x, y) {
       const row = Math.floor(y / Game.BLOCKSIZE);
       const col = Math.floor(x / Game.BLOCKSIZE);
-
+    
+      console.log(`Checking movement to (${x}, ${y}) -> (row: ${row}, col: ${col})`);
+    
       // Check if indices are within bounds
-      // if (row < 0 || row >= mainMap.length || col < 0 || col >= mainMap[0].length) {
-      //   return false;
-      // }
-
+      if (row < 0 || row >= mainMap.length || col < 0 || col >= mainMap[0].length) {
+        console.log('Movement out of bounds');
+        return false;
+      }
+    
       const tileType = mainMap[row][col];
       const tile = tileTypes[tileType];
-
-      if (!isBridgeTile(row, col) && isWaterTile(row, col)) {
+    
+      if (isWaterTile(row, col)) {
+        console.log('Cannot move to water tile without a bridge');
         return false; // Prevent movement onto water tiles without a bridge
       }
+    
+      console.log('Movement allowed');
       return true;
     }
 
@@ -142,7 +148,7 @@ class Player {
       }
 
       let newX = this.xPos;
-    let newY = this.yPos;
+      let newY = this.yPos;
 
     if (keyIsDown(DOWN_ARROW)) {
       console.log('Moving down');
