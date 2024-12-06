@@ -92,29 +92,3 @@ function isCasinoTile(row, col) {
   return tileTypes[mainMap[row][col]].type === 'casino';
 }
 
-function checkCasinoEntry(player) {
-  const { row, col } = getPlayerTile(player);
-  
-  if (isRedCarpetTile(row, col)) {
-      // Display prompt to press 'E'
-      push();
-      fill(255);
-      textSize(20);
-      textAlign(CENTER);
-      text("Press 'E' to enter casino", width/2, height - 50);
-      pop();
-      
-      // Check for 'E' key press
-      if (keyIsDown(69)) { // 69 is the keyCode for 'E'
-          currentScreen = 'casino';
-      }
-  }
-}
-function getPlayerTile(player) {
-  const row = Math.floor(player.yPos / (Game.BLOCKSIZE * 4));
-  const col = Math.floor(player.xPos / (Game.LANEWIDTH * 2));
-  return { row, col };
-}
-function isRedCarpetTile(row, col) {
-  return tileTypes[mainMap[row][col]].type === 'redCarpet';
-}
