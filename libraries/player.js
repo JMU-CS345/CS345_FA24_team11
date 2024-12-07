@@ -29,11 +29,12 @@ class Player {
     this.health = health;
     this.currency = currency;
     this.coinMultiplier = 1;
+    this.shield = false;
     this.inventory = []; // TODO @mfwolffe regroup on inventory DS choice
 
     // Sprite and animation properties
     this.sprite = loadImage('assets/rSprite.png');
-    
+
     this.spriteWidth = 32;  // fixed cannot be changed
     this.spriteHeight = 32;
     this.currentFrame = 0;
@@ -44,7 +45,7 @@ class Player {
     this.isMoving = false;         // Track movement state
 
     this.moveLength = Game.BLOCKSIZE * 4;
-    
+
     // Animation frames mapping
     this.animations = {
       down: { row: 7, frames: 8, startFrame: 0 },
@@ -52,14 +53,14 @@ class Player {
       right: { row: 3, frames: 16, startFrame: 0 },
       up: { row: 2, frames: 8, startFrame: 0 }
     };
-    
+
     // // TESTING adds 100 of each powerup to inventory
     // for (let i = 0; i < 100; i++) {
       //   this.inventory.push(new CoinMultiplier());
       //   this.inventory.push(new DashPowerUp());
       // }
     }
-    
+
     useCoinMultiplier() {
       const coinMultiplier = this.inventory.find(item => item instanceof CoinMultiplier);
       if (coinMultiplier && coinMultiplier.fetchQuantity() > 0) {
@@ -72,7 +73,7 @@ class Player {
         console.log('CoinMultiplier not found or quantity is 0');
       }
     }
-    
+
     useDashPowerUp() {
       const dashPowerUp = this.inventory.find(item => item instanceof DashPowerUp);
       if (dashPowerUp) {
@@ -89,37 +90,98 @@ class Player {
         console.log('DashPowerUp not found in inventory');
       }
     }
-    
+
+    useShieldPowerUp() {
+      const shieldPowerUp = this.inventory.find(item => item instanceof ShieldPowerUp);
+      if (shieldPowerUp) {
+        if (shieldPowerUp.fetchQuantity() > 0) {
+          shieldPowerUp.applyEffect();
+          shieldPowerUp.updateQuantity(shieldPowerUp.fetchQuantity() - 1);
+          if (shieldPowerUp.fetchQuantity() === 0) {
+            this.inventory = this.inventory.filter(item => item !== shieldPowerUp);
+          }
+        } else {
+          console.log('ShieldPowerUp quantity is 0');
+        }
+      } else {
+        console.log('ShieldPowerUp not found in inventory');
+      }
+    }
+
+    updatePlayerHealth(change) {
+      if (this.shield) {
+        this.shield = false; // Shield absorbs the hit
+        console.log('Shield Used');
+      } else {
+        this.health += change;
+      }
+    }
+
     handlePlayerMovement() {
       if (this.isMoving) {
         console.log('Player is currently moving, skipping movement.');
         return; // Prevent multiple movements
       }
-      
+
+      let newX = this.xPos;
+      let newY = this.yPos;
+
       if (keyIsDown(DOWN_ARROW)) {
-        console.log('Moving down');
-        this.updatePlayerYPos(this.moveLength);
+        newY += this.moveLength;
         this.facing = 'down';
         this.isMoving = true;
       } else if (keyIsDown(UP_ARROW)) {
-        console.log('Moving up');
-        this.updatePlayerYPos(-this.moveLength);
+        newY -= this.moveLength;
         this.facing = 'up';
         this.isMoving = true;
       } else if (keyIsDown(RIGHT_ARROW)) {
-        console.log('Moving right');
-        this.updatePlayerXPos(this.moveLength);
+        newX += this.moveLength;
         this.facing = 'right';
         this.isMoving = true;
       } else if (keyIsDown(LEFT_ARROW)) {
-        console.log('Moving left');
-        this.updatePlayerXPos(-this.moveLength);
+        newX -= this.moveLength;
         this.facing = 'left';
         this.isMoving = true;
+      } else {
+        // No movement keys pressed
+        this.isMoving = false;
       }
 
-    // Always update animation, whether moving or idle
-    this.updateAnimation();
+      // Use canMoveTo to check if movement is allowed
+      if (this.isMoving && this.canMoveTo(newX, newY)) {
+        this.updatePlayerXPos(newX - this.xPos);
+        this.updatePlayerYPos(newY - this.yPos);
+      } else if (this.isMoving) {
+        console.log('Cannot move to the desired tile.');
+        this.isMoving = false; // Prevents the player from getting stuck in moving state
+      }
+
+      // Always update animation, whether moving or idle
+      this.updateAnimation();
+    }
+
+  canMoveTo(x, y) {
+    const row = Math.floor(y / (Game.BLOCKSIZE * 4));
+    const col = Math.floor(x / (Game.LANEWIDTH * 2));
+
+    // Check if indices are within the map boundaries
+    if (row < 0 || row >= combinedMap.length || col < 0 || col >= combinedMap[0].length) {
+      return false;
+    }
+
+    const tileType = combinedMap[row][col].getType();
+    const tile = tileTypes[tileType];
+
+    if (!tile) {
+      console.log(`Undefined tile: row=${row}, col=${col}, tileType=${tileType}. Allowing traversal.`);
+      return true; // Allow traversal for undefined tiles
+    }
+
+    if (tile.type === 'water') {
+      return false;
+    }
+
+    return true;
   }
 
   keyReleased() {
@@ -180,7 +242,7 @@ class Player {
 
   updatePlayerYPos(change) {
     let candidate = this.yPos + change;
-    if (candidate < Game.CANVAS.HEIGHT && candidate >= 0) {
+    if (candidate < combinedMap.length * (Game.BLOCKSIZE * 4) && candidate >= 0) {
       this.yPos = candidate;
     }
   }

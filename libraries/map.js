@@ -6,8 +6,8 @@ const mainMap = [
   [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-  [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-  [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+  [3, 3, 3, 3, 3, 3, 3, 6, 3, 3, 3, 3, 3, 3, 3, 3],
+  [3, 3, 3, 3, 3, 3, 3, 6, 3, 3, 3, 3, 3, 3, 3, 3],
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -31,6 +31,7 @@ function setupTileTypes() {
     3: { type: 'water', color: [70, 130, 180], img: waterImg },
     4: { type: 'redCarpet', color: [255, 215, 0], img: carpetImg },
     5: { type: 'roadBot', color: [50, 50, 50], img: roadBotImg },
+    6: { type: 'bridge', color: [50, 50, 50], img: bridgeImg },
   };
 }
 
@@ -92,3 +93,6 @@ function isCasinoTile(row, col) {
   return tileTypes[mainMap[row][col]].type === 'casino';
 }
 
+function isBridgeTile(row,col) {
+  return tileTypes[mainMap[row][col]].type === 'bridge';
+}

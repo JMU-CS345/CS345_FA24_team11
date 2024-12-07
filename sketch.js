@@ -18,6 +18,7 @@ function preload() {
   grassImg = loadImage('assets/mapGraphics/grass.png');
   waterImg = loadImage('assets/mapGraphics/water2.png');
   carpetImg = loadImage('assets/mapGraphics/redCarpet.png');
+  bridgeImg = loadImage('assets/mapGraphics/bridge.png');
   // casinoImg = loadImage('assets/mapGraphics/casino.png');
 
   preloadCasino();
@@ -66,14 +67,14 @@ function keyReleased() {
 
 function keyPressed() {
   if (currentScreen == 'game') {
-      CoinMultiplier.handleCoinKeyPress(key);
-      DashPowerUp.handleDashKeyPress(key);
-      
+    CoinMultiplier.handleCoinKeyPress(key);
+    DashPowerUp.handleDashKeyPress(key);
+    ShieldPowerUp.handleShieldKeyPress(key);
       // Add casino entry check
       if (keyCode === 69) { // 'E' key
           const playerTileX = Math.floor(Game.player.xPos / (Game.LANEWIDTH * 2));
           const playerTileY = Math.floor(Game.player.yPos / (Game.BLOCKSIZE * 4));
-          
+
           if (mainMap[playerTileY] && mainMap[playerTileY][playerTileX] === 4) {
               currentScreen = 'casino';
               currentCasinoScreen = 'landing';
