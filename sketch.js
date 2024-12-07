@@ -38,7 +38,11 @@ function setup() {
   createCanvas(Game.CANVAS.WIDTH, Game.CANVAS.HEIGHT);
   textAlign(CENTER, CENTER);
 
+  // console.log(`PLAYER DFAULT CURRENCY: ${Game.player.currency}`);
+
   setupTileTypes();
+  setupAggregateTypes();
+  initMap();
 }
 
 function mousePressed() {
@@ -67,6 +71,8 @@ function keyPressed() {
   }
 
   if (currentCasinoScreen == 'blackjack') keyPressedBlackJack(keyCode);
+
+  if (currentScreen === 'main' && key === ' ') Game.describeGame();
 }
 
 function draw() {

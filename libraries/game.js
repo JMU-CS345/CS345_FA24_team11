@@ -219,5 +219,10 @@ class Game {
     }
   }
 
+  static describeGame() {
+    const that = this;
+    console.table(that);
+  }
+
 
 }

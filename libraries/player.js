@@ -1,6 +1,6 @@
 const DEFAULTSPEED = 10;
 const DEFAULTHEALTH = 15;
-const DEFAULTCURRENCY = 100;
+const DEFAULTCURRENCY = 2500;
 
 /**
  * Player model with sprite animation and movement
@@ -153,8 +153,8 @@ class Player {
       // Draw the current frame
       image(
         this.sprite,
-        this.xPos + (this.spriteWidth * 1.5) / 2,  // Center the sprite horizontally
-        this.yPos + (this.spriteHeight * 1.5) / 2, // Center the sprite vertically
+        this.xPos + (this.spriteWidth * 1.5) / 8,  // Center the sprite horizontally
+        this.yPos + (this.spriteHeight * 1.5) / 8, // Center the sprite vertically
         this.spriteWidth * 2,
         this.spriteHeight * 2,
         sx,
