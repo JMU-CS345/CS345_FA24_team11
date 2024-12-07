@@ -61,30 +61,6 @@ class Player {
       // }
     }
 
-    canMoveTo(x, y) {
-      const row = Math.floor(y / Game.BLOCKSIZE);
-      const col = Math.floor(x / Game.BLOCKSIZE);
-
-      console.log(`Checking movement to (${x}, ${y}) -> (row: ${row}, col: ${col})`);
-
-      // Check if indices are within bounds
-      if (row < 0 || row >= mainMap.length || col < 0 || col >= mainMap[0].length) {
-        console.log('Movement out of bounds');
-        return false;
-      }
-
-      const tileType = mainMap[row][col];
-      const tile = tileTypes[tileType];
-
-      if (isWaterTile(row, col)) {
-        console.log('Cannot move to water tile without a bridge');
-        return false; // Prevent movement onto water tiles without a bridge
-      }
-
-      console.log('Movement allowed');
-      return true;
-    }
-
     useCoinMultiplier() {
       const coinMultiplier = this.inventory.find(item => item instanceof CoinMultiplier);
       if (coinMultiplier && coinMultiplier.fetchQuantity() > 0) {
@@ -150,37 +126,62 @@ class Player {
       let newX = this.xPos;
       let newY = this.yPos;
 
-    if (keyIsDown(DOWN_ARROW)) {
-      console.log('Moving down');
-      newY += this.moveLength;
-      this.facing = 'down';
-      this.isMoving = true;
-    } else if (keyIsDown(UP_ARROW)) {
-      console.log('Moving up');
-      newY -= this.moveLength;
-      this.facing = 'up';
-      this.isMoving = true;
-    } else if (keyIsDown(RIGHT_ARROW)) {
-      console.log('Moving right');
-      newX += this.moveLength;
-      this.facing = 'right';
-      this.isMoving = true;
-    } else if (keyIsDown(LEFT_ARROW)) {
-      console.log('Moving left');
-      newX -= this.moveLength;
-      this.facing = 'left';
-      this.isMoving = true;
+      if (keyIsDown(DOWN_ARROW)) {
+        newY += this.moveLength;
+        this.facing = 'down';
+        this.isMoving = true;
+      } else if (keyIsDown(UP_ARROW)) {
+        newY -= this.moveLength;
+        this.facing = 'up';
+        this.isMoving = true;
+      } else if (keyIsDown(RIGHT_ARROW)) {
+        newX += this.moveLength;
+        this.facing = 'right';
+        this.isMoving = true;
+      } else if (keyIsDown(LEFT_ARROW)) {
+        newX -= this.moveLength;
+        this.facing = 'left';
+        this.isMoving = true;
+      } else {
+        // No movement keys pressed
+        this.isMoving = false;
+      }
+
+      // Use canMoveTo to check if movement is allowed
+      if (this.isMoving && this.canMoveTo(newX, newY)) {
+        this.updatePlayerXPos(newX - this.xPos);
+        this.updatePlayerYPos(newY - this.yPos);
+      } else if (this.isMoving) {
+        console.log('Cannot move to the desired tile.');
+        this.isMoving = false; // Prevents the player from getting stuck in moving state
+      }
+
+      // Always update animation, whether moving or idle
+      this.updateAnimation();
     }
 
-    if (this.canMoveTo(newX, newY)) {
-      this.xPos = newX;
-      this.yPos = newY;
-    } else {
-      console.log('Cannot move to water tile without a bridge');
+  canMoveTo(x, y) {
+    const row = Math.floor(y / (Game.BLOCKSIZE * 4));
+    const col = Math.floor(x / (Game.LANEWIDTH * 2));
+
+    // Check if indices are within the map boundaries
+    if (row < 0 || row >= combinedMap.length || col < 0 || col >= combinedMap[0].length) {
+      return false;
     }
 
-    // Always update animation, whether moving or idle
-    this.updateAnimation();
+    const tileType = combinedMap[row][col].getType();
+    const tile = tileTypes[tileType];
+
+    if (!tile) {
+      console.log(`Undefined tile: row=${row}, col=${col}, tileType=${tileType}. Allowing traversal.`);
+      return true; // Allow traversal for undefined tiles
+    }
+
+    if (tile.type === 'water') {
+      return false;
+    }
+
+    return true;
   }
 
   keyReleased() {
@@ -241,7 +242,7 @@ class Player {
 
   updatePlayerYPos(change) {
     let candidate = this.yPos + change;
-    if (candidate < Game.CANVAS.HEIGHT && candidate >= 0) {
+    if (candidate < combinedMap.length * (Game.BLOCKSIZE * 4) && candidate >= 0) {
       this.yPos = candidate;
     }
   }
