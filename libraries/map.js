@@ -39,7 +39,7 @@ function drawMap() {
   const cols = mainMap[0].length;
   const tileWidth = Game.LANEWIDTH * 2;
   const tileHeight = Game.BLOCKSIZE * 4;
-
+  //checkCasinoEntry(player);
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       const tileType = mainMap[i][j];
@@ -91,3 +91,4 @@ function isWaterTile(row, col) {
 function isCasinoTile(row, col) {
   return tileTypes[mainMap[row][col]].type === 'casino';
 }
+

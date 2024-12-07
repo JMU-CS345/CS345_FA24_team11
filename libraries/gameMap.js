@@ -95,4 +95,39 @@ class GameMap {
       }
     }
   }
+
+
+  
+  // Add to GameMap class
+isRedCarpetTile(x, y) {
+  // Convert pixel coordinates to tile coordinates
+  const tileX = Math.floor(x / (Game.LANEWIDTH * 2));
+  const tileY = Math.floor(y / (Game.BLOCKSIZE * 4));
+  
+  // Check if coordinates are within bounds
+  if (tileY >= 0 && tileY < mainMap.length && tileX >= 0 && tileX < mainMap[0].length) {
+      return mainMap[tileY][tileX] === 4; // 4 is the red carpet tile
+  }
+  return false;
+}
+
+checkCasinoEntry(player) {
+  if (this.isRedCarpetTile(player.xPos, player.yPos)) {
+      // Display prompt
+      push();
+      textAlign(CENTER, CENTER);
+      textSize(20);
+      fill(255);
+      stroke(0);
+      strokeWeight(2);
+      text("Press 'E' to enter Casino", width/2, height - 50);
+      pop();
+      
+      // Check for 'E' key press
+      if (keyIsDown(69)) { // 69 is keyCode for 'E'
+          currentScreen = 'casino';
+          currentCasinoScreen = 'landing';
+      }
+  }
+}
 }

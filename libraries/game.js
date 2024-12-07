@@ -182,6 +182,7 @@ class Game {
     adjustCamera(Game.player);
     drawMap();
     // Game.renderGrid();
+    //checkCasinoEntry(player);
     Game.MAP.renderCoins();
     Game.player.drawPlayer();
     Game.player.handlePlayerMovement();
@@ -219,6 +220,44 @@ class Game {
     }
   }
 
+  static checkCasinoEntry() {
+    const playerTileX = Math.floor(this.player.xPos / (Game.LANEWIDTH * 2));
+    const playerTileY = Math.floor(this.player.yPos / (Game.BLOCKSIZE * 4));
+    
+
+    /** @todo FIXME with new map  */
+    // if (mainMap[playerTileY] && mainMap[playerTileY][playerTileX] === 4) {
+    //     push();
+    //     resetMatrix(); // Ensure text displays in correct screen position
+    //     textAlign(CENTER, CENTER);
+    //     textSize(20);
+    //     fill(255);
+    //     stroke(0);
+    //     strokeWeight(2);
+    //     text("Press 'E' to enter Casino", width/2, height - 100);
+    //     pop();
+    // }
+}
+
+static drawGame() {
+  if (!Game.MAP)
+      alert("bad state; game not initialized by time of drawGame call");
+
+  adjustCamera(Game.player);
+  drawMap();
+  Game.MAP.renderCoins();
+  Game.player.drawPlayer();
+  Game.player.handlePlayerMovement();
+  Game.checkCasinoEntry(); // Add this line
+
+  const bill = () => { console.log("bill") }
+
+  checkSquares({x: Game.player.xPos, y: Game.player.yPos, w: Game.BLOCKSIZE, h: Game.BLOCKSIZE}, 
+              {x: 20, y: 0, w: Game.BLOCKSIZE, h: Game.BLOCKSIZE}) && bill();
+
+  resetMatrix();  // back button tracks with camera
+  drawButton('Back', width/2, height - 45, 200, 50);
+}
   static describeGame() {
     const that = this;
     console.table(that);

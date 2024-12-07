@@ -66,10 +66,20 @@ function keyReleased() {
 
 function keyPressed() {
   if (currentScreen == 'game') {
-    CoinMultiplier.handleCoinKeyPress(key);
-    DashPowerUp.handleDashKeyPress(key);
+      CoinMultiplier.handleCoinKeyPress(key);
+      DashPowerUp.handleDashKeyPress(key);
+      
+      // Add casino entry check
+      if (keyCode === 69) { // 'E' key
+          const playerTileX = Math.floor(Game.player.xPos / (Game.LANEWIDTH * 2));
+          const playerTileY = Math.floor(Game.player.yPos / (Game.BLOCKSIZE * 4));
+          
+          if (mainMap[playerTileY] && mainMap[playerTileY][playerTileX] === 4) {
+              currentScreen = 'casino';
+              currentCasinoScreen = 'landing';
+          }
+      }
   }
-
   if (currentCasinoScreen == 'blackjack') keyPressedBlackJack(keyCode);
 
   if (currentScreen === 'main' && key === ' ') Game.describeGame();
@@ -93,7 +103,6 @@ function draw() {
       console.log("BAD SCENE");
       break;
   }
-
   // let block;
   // (block = Game.player.checkCollectCoin()) && Game.player.collectCoin(block);
 }
