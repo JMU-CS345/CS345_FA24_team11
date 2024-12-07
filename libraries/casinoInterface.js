@@ -4,6 +4,7 @@ let highLowInitialized = false;
 let blackJackInitialized = false;
 let slotsInitialized = false;
 let rouletteInitialized = false;
+let kenoInitialized = false;
 
 function preloadCasino() {
   width = 200; // Define the width of each button
@@ -83,7 +84,10 @@ function drawCasino() {
       drawSlots();
       break;
     case "keno":
-      setupKeno();
+      if (!kenoInitialized) {
+        setupKeno();
+        kenoInitialized = true;
+      }
       drawKeno();
       break;
     case "highlow":

@@ -11,14 +11,17 @@
 class Block {
   #hasCoin;
   #hazard;
+  #type;
 
   /** @todo @mfwolffe write hazard class */
-  constructor(hasCoin=false, hazard=null, xPos, yPos) {
+  constructor(hasCoin=false, hazard=null, xPos, yPos, type) {
     this.#hasCoin = Boolean(hasCoin);
     this.#hazard = JSON.parse(JSON.stringify(hazard));
 
     this.xPos = xPos;
     this.yPos = yPos;
+
+    this.#type = type;
   }
 
   /**
@@ -29,6 +32,14 @@ class Block {
    * @param {*} change new value for coinPresent
    */
   updateCoin(change) { this.#hasCoin = Boolean(change); }
+
+  
+  /**
+   * update this block's type of bg
+   *
+   * @param {*} change ensure it's an integer
+   */
+  updateType(change) { this.#type = change }
 
   /**
    * Update this block's hazard
@@ -74,4 +85,12 @@ class Block {
    */
   getCoords() { return this.xPos, this.yPos; }
   
+
+  
+  /**
+   * Fetch this block's type (hazard or not etc)
+   *
+   * @returns {*} integer repr of typ; @see combinedMap or just Map
+   */
+  getType() { return this.#type }
 }
