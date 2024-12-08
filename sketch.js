@@ -12,13 +12,13 @@ function preload() {
   coinSprite = loadImage('assets/coin.gif');
   raccoonImg = loadImage('assets/raccoon.jpg');
   racoonSprite = loadImage('assets/raccoon.jpg');
-  roadBotImg = loadImage('assets/mapGraphics/roadBot.png');
-  roadTopImg = loadImage('assets/mapGraphics/roadTop.png');
-  sidewalkImg = loadImage('assets/mapGraphics/sidewalk2.png');
   grassImg = loadImage('assets/mapGraphics/grass.png');
   waterImg = loadImage('assets/mapGraphics/water2.png');
-  carpetImg = loadImage('assets/mapGraphics/redCarpet.png');
   bridgeImg = loadImage('assets/mapGraphics/bridge.png');
+  roadBotImg = loadImage('assets/mapGraphics/roadBot.png');
+  roadTopImg = loadImage('assets/mapGraphics/roadTop.png');
+  carpetImg = loadImage('assets/mapGraphics/redCarpet.png');
+  sidewalkImg = loadImage('assets/mapGraphics/sidewalk2.png');
   // casinoImg = loadImage('assets/mapGraphics/casino.png');
 
   preloadCasino();
@@ -69,18 +69,8 @@ function keyPressed() {
   if (currentScreen == 'game') {
     CoinMultiplier.handleCoinKeyPress(key);
     DashPowerUp.handleDashKeyPress(key);
-    ShieldPowerUp.handleShieldKeyPress(key);
-      // Add casino entry check
-      if (keyCode === 69) { // 'E' key
-          const playerTileX = Math.floor(Game.player.xPos / (Game.LANEWIDTH * 2));
-          const playerTileY = Math.floor(Game.player.yPos / (Game.BLOCKSIZE * 4));
-
-          if (mainMap[playerTileY] && mainMap[playerTileY][playerTileX] === 4) {
-              currentScreen = 'casino';
-              currentCasinoScreen = 'landing';
-          }
-      }
   }
+
   if (currentCasinoScreen == 'blackjack') keyPressedBlackJack(keyCode);
 
   if (currentScreen === 'main' && key === ' ') Game.describeGame();
@@ -104,6 +94,7 @@ function draw() {
       console.log("BAD SCENE");
       break;
   }
+
   // let block;
   // (block = Game.player.checkCollectCoin()) && Game.player.collectCoin(block);
 }
