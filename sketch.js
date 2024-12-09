@@ -28,6 +28,7 @@ function preload() {
   function setup() {
     /** @todo @mfwolffe don't forget about difficulty */
     game = new Game(1, 1280, 720);
+
     menu = new Menu(0.5);
 
     // if you see the error thrown below
@@ -42,6 +43,7 @@ function preload() {
     setupTileTypes();
     setupAggregateTypes();
     initMap();
+    
 }
 
 function mousePressed() {
