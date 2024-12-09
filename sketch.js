@@ -9,7 +9,7 @@ function preload() {
     /* LOAD SPRITES HERE */
     coinSprite = loadImage('assets/coin.gif');
     raccoonImg = loadImage('assets/raccoon.jpg');
-    racoonSprite = loadImage('assets/rSprite.png');
+    racoonSprite = loadImage('assets/raccoon.jpg');
     grassImg = loadImage('assets/mapGraphics/grass.png');
     waterImg = loadImage('assets/mapGraphics/water2.png');
     bridgeImg = loadImage('assets/mapGraphics/bridge.png');
@@ -25,7 +25,7 @@ function preload() {
     GameMenu.initializeSprite();
 }
 
-async function setup() {
+  function setup() {
     /** @todo @mfwolffe don't forget about difficulty */
     game = new Game(1, 1280, 720);
     menu = new Menu(0.5);
@@ -74,7 +74,15 @@ function keyPressed() {
 
 function draw() {
     /** @todo @mfwolffe don't call this here */
-    background("teal");
+    colors = {
+      background: color(31, 41, 55),
+     machine: color(55, 65, 81),
+     display: color(17, 24, 39),
+     button: color(220, 38, 38),
+     buttonHover: color(185, 28, 28),
+     text: color(255)
+    }
+    background(colors.background);
     switch(currentScreen) {
         case 'game': Game.drawGame(); break;
         case 'difficulty': drawDifficultyMenu(); break;
