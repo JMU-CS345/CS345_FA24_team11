@@ -20,7 +20,7 @@ function preload() {
     // casinoImg = loadImage('assets/mapGraphics/casino.png');
     preloadCasino();
     preloadSlots();
-    
+
     // Initialize menu sprite
     GameMenu.initializeSprite();
 }
@@ -43,7 +43,7 @@ function preload() {
     setupTileTypes();
     setupAggregateTypes();
     initMap();
-    
+
 }
 
 function mousePressed() {
@@ -69,6 +69,7 @@ function keyPressed() {
     if (currentScreen == 'game') {
         CoinMultiplier.handleCoinKeyPress(key);
         DashPowerUp.handleDashKeyPress(key);
+        ShieldPowerUp.handleShieldKeyPress(key);
     }
     if (currentCasinoScreen == 'blackjack') keyPressedBlackJack(keyCode);
     if (currentScreen === 'main' && key === ' ') Game.describeGame();
