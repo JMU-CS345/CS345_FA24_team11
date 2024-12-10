@@ -66,7 +66,7 @@ function drawCasino() {
         setupBlackJack();
         blackJackInitialized = true;
       }
-      drawBlackJack();xw
+      drawBlackJack();
       break;
     case "roulette":
       if (!rouletteInitialized) {
