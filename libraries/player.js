@@ -168,6 +168,8 @@ class Player {
         this.isMoving = false; // Prevents the player from getting stuck in moving state
       }
 
+      checkCasinoEntry(Game.player);
+
       // Always update animation, whether moving or idle
       this.updateAnimation();
     }
