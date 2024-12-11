@@ -31,7 +31,7 @@ function preload() {
     preloadSlots();
 
     // Initialize menu sprite
-    GameMenu.initializeSprite();
+    // GameMenu.initializeSprite();
 }
 
   function setup() {
