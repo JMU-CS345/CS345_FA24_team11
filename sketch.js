@@ -1,6 +1,4 @@
 let game, menu;
-
-
 /* ADD SPRITE VARIABLES HERE */
 let coinSprite;
 let raccoonImg;
@@ -10,18 +8,18 @@ let roadBotImg, roadTopImg, sidewalkImg, grassImg, waterImg, carpetImg;
 let cars = [];
 
 function preload() {
-  /* LOAD SPRITES HERE */
-  coinSprite = loadImage('assets/coin.gif');
-  raccoonImg = loadImage('assets/raccoon.jpg');
-  racoonSprite = loadImage('assets/raccoon.jpg');
-  grassImg = loadImage('assets/mapGraphics/grass.png');
-  waterImg = loadImage('assets/mapGraphics/water2.png');
-  bridgeImg = loadImage('assets/mapGraphics/bridge.png');
-  roadBotImg = loadImage('assets/mapGraphics/roadBot.png');
-  roadTopImg = loadImage('assets/mapGraphics/roadTop.png');
-  carpetImg = loadImage('assets/mapGraphics/redCarpet.png');
-  sidewalkImg = loadImage('assets/mapGraphics/sidewalk2.png');
-  // casinoImg = loadImage('assets/mapGraphics/casino.png');
+    /* LOAD SPRITES HERE */
+    coinSprite = loadImage('assets/coin.gif');
+    raccoonImg = loadImage('assets/raccoon.jpg');
+    racoonSprite = loadImage('assets/raccoon.jpg');
+    grassImg = loadImage('assets/mapGraphics/grass.png');
+    waterImg = loadImage('assets/mapGraphics/water2.png');
+    bridgeImg = loadImage('assets/mapGraphics/bridge.png');
+    roadBotImg = loadImage('assets/mapGraphics/roadBot.png');
+    roadTopImg = loadImage('assets/mapGraphics/roadTop.png');
+    carpetImg = loadImage('assets/mapGraphics/redCarpet.png');
+    sidewalkImg = loadImage('assets/mapGraphics/sidewalk2.png');
+    // casinoImg = loadImage('assets/mapGraphics/casino.png');
 
   for (let i = 1; i <= 4; i++) {
     cars.push({
@@ -29,30 +27,32 @@ function preload() {
       right: loadImage(`assets/obs/car${i}-1.png`),
     })
   }
+    preloadCasino();
+    preloadSlots();
 
-  preloadCasino();
-  preloadSlots();
+    // Initialize menu sprite
+    GameMenu.initializeSprite();
 }
 
-function setup() {
-  /** @todo @mfwolffe don't forget about difficulty */
-  game = new Game(1, 1280, 720);
-  menu = new Menu(0.5);
+  function setup() {
+    /** @todo @mfwolffe don't forget about difficulty */
+    game = new Game(1, 1280, 720);
 
-  // if you see the error thrown below
-  // in console, you are likely just
-  // missing an instance of a game.
-  if (!Game.difficulty) throw new Error("Game not initialized");
+    menu = new Menu(0.5);
 
-  /* ADD STUFF THAT DEPENDS ON `Game` BELOW HERE AS NEEDED */
-  createCanvas(Game.CANVAS.WIDTH, Game.CANVAS.HEIGHT);
-  textAlign(CENTER, CENTER);
+    // if you see the error thrown below
+    // in console, you are likely just
+    // missing an instance of a game.
+    if (!Game.difficulty) throw new Error("Game not initialized");
 
-  // console.log(`PLAYER DFAULT CURRENCY: ${Game.player.currency}`);
+    /* ADD STUFF THAT DEPENDS ON `Game` BELOW HERE AS NEEDED */
+    createCanvas(Game.CANVAS.WIDTH, Game.CANVAS.HEIGHT);
+    textAlign(CENTER, CENTER);
 
-  setupTileTypes();
-  setupAggregateTypes();
-  initMap();
+    setupTileTypes();
+    setupAggregateTypes();
+    initMap();
+
 }
 
 function mousePressed() {
@@ -70,20 +70,19 @@ function mousePressed() {
 }
 
 function keyReleased() {
-  if (currentScreen == 'game') {
-    Game.player.keyReleased();
-  }
+    if (currentScreen == 'game') {
+        Game.player.keyReleased();
+    }
 }
 
 function keyPressed() {
-  if (currentScreen == 'game') {
-    CoinMultiplier.handleCoinKeyPress(key);
-    DashPowerUp.handleDashKeyPress(key);
-  }
-
-  if (currentCasinoScreen == 'blackjack') keyPressedBlackJack(keyCode);
-
-  if (currentScreen === 'main' && key === ' ') Game.describeGame();
+    if (currentScreen == 'game') {
+        CoinMultiplier.handleCoinKeyPress(key);
+        DashPowerUp.handleDashKeyPress(key);
+        ShieldPowerUp.handleShieldKeyPress(key);
+    }
+    if (currentCasinoScreen == 'blackjack') keyPressedBlackJack(keyCode);
+    if (currentScreen === 'main' && key === ' ') Game.describeGame();
 
   console.log("player:", Game.player.xPos, Game.player.yPos);
   
@@ -91,7 +90,15 @@ function keyPressed() {
 
 function draw() {
   /** @todo @mfwolffe don't call this here */
-  background("teal");
+  colors = {
+  background: color(31, 41, 55),
+  machine: color(55, 65, 81),
+  display: color(17, 24, 39),
+  button: color(220, 38, 38),
+  buttonHover: color(185, 28, 28),
+  text: color(255)
+ }
+ background(colors.background);
 
   switch(currentScreen) {
     case 'game':        Game.drawGame();                      break;
