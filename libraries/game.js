@@ -259,7 +259,6 @@ static drawGame() {
   if (!Game.MAP)
       alert("bad state; game not initialized by time of drawGame call");
   
-
   adjustCamera(Game.player);
   drawMap();
   checkCoin(Game.player);
@@ -273,7 +272,6 @@ static drawGame() {
   Game.player.handlePlayerMovement();
   Game.checkCasinoEntry(); // Add this line
 
-  
   // purgeObstacles();
 
   fireObstacle();
@@ -290,8 +288,10 @@ static drawGame() {
       Game.BLOCKSIZE
     )
   }
+  
 
   resetMatrix();  // back button tracks with camera
+  drawMoneyCounter();
   drawButton('Back', width/2, height - 45, 200, 50);
 }
 
