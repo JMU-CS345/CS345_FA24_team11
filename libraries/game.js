@@ -41,6 +41,7 @@ class Game {
   static coinMultiplier;
   
   static coinPenalty = 0;
+  static defaultCurrency = 2500;
 
   constructor(difficulty, width=null, height=null) {
     if (![0, 1, 2].includes(difficulty))
@@ -180,7 +181,7 @@ class Game {
       DEFAULTSPEED,
       DEFAULTSPEED,
       DEFAULTHEALTH,
-      DEFAULTCURRENCY
+      Game.defaultCurrency,
     );
   }
 

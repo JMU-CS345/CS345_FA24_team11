@@ -1,6 +1,5 @@
 const DEFAULTSPEED = 10;
 const DEFAULTHEALTH = 15;
-let DEFAULTCURRENCY = 2500;
 
 /**
  * Player model with sprite animation and movement
@@ -16,7 +15,7 @@ class Player {
     xSpeed = DEFAULTSPEED,
     ySpeed = DEFAULTSPEED,
     health = DEFAULTHEALTH,
-    currency = DEFAULTCURRENCY
+    currency = Game.defaultCurrency,
   ) {
     // Position and movement properties
     this.moveLength = Game.BLOCKSIZE;
@@ -281,9 +280,8 @@ class Player {
   }
 
   killPlayer() {
-    this.currency = 0;
-    Game.PENALTY += 100;
-    DEFAULTCURRENCY -= Game.PENALTY;
+    this.currency -= Game.coinPenalty;
+    Game.coinPenalty += 25;
     Game.endGame();
   }
 

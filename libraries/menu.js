@@ -149,11 +149,11 @@ function drawMoneyCounter() {
   textSize(24);
   // Draw shadow
   fill(0, 0, 0, 50);
-  text('$' + money, width - 18, 22);
+  text('$' + Game.player.currency, width - 18, 22);
   // Draw text
   // fill(0);
   fill("white")
-  text('$' + money, width - 20, 20);
+  text('$' + Game.player.currency, width - 20, 20);
   pop();
 }
 
