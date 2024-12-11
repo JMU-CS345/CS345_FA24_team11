@@ -17,6 +17,9 @@ const WEC = {
 let currentScreen = 'main';
 let blackJackInit = false;
 
+
+let offsetY;
+
 /**
  * Game "Engine" for frogger clone
  *
@@ -35,6 +38,9 @@ class Game {
 
   static player;
   static currentScene;
+  static coinMultiplier;
+  
+  static coinPenalty = 0;
 
   constructor(difficulty, width=null, height=null) {
     if (![0, 1, 2].includes(difficulty))
@@ -55,13 +61,13 @@ class Game {
       configurable: true,
     });
     Object.defineProperty(Game, 'BLOCKSIZE', {
-      value: 20,
+      value: 80,
       ...WEC,
     });
 
     // SEEME  These props need more consideration
     Object.defineProperty(Game, 'LANEWIDTH', {
-      value: Game.BLOCKSIZE * 2,
+      value: Game.BLOCKSIZE,
       ...WEC,
     });
     Object.defineProperty(Game, 'OBSLEN', {
@@ -160,10 +166,13 @@ class Game {
       value: Game.BLOCKSIZE,
       ...WEC,
     });
-
-
+    Object.defineProperty(Game, "COINVALUE", {
+      value: 100,
+      ...WEC,
+    });
 
     Game.currentScene = "MAIN";
+    Game.coinMultiplier = 1;
 
     Game.player = new Player(
       Game.STARTX,
@@ -241,32 +250,53 @@ class Game {
     // }
 }
 
+static endGame() {
+  // initMap();
+  currentScreen = 'over';
+}
+
 static drawGame() {
   if (!Game.MAP)
       alert("bad state; game not initialized by time of drawGame call");
+  
 
   adjustCamera(Game.player);
   drawMap();
-  // Game.MAP.renderCoins();
-  renderCoins();
+  checkCoin(Game.player);
+
+  if (checkCar(Game.player)) {
+    Game.player.killPlayer();
+  }
+
+  checkCar(Game.player) && Game.player.killPlayer();
   Game.player.drawPlayer();
   Game.player.handlePlayerMovement();
   Game.checkCasinoEntry(); // Add this line
 
-  const bill = () => { console.log("bill") }
+  
+  // purgeObstacles();
 
-  checkSquares({x: Game.player.xPos, y: Game.player.yPos, w: Game.BLOCKSIZE, h: Game.BLOCKSIZE}, 
-              {x: 20, y: 0, w: Game.BLOCKSIZE, h: Game.BLOCKSIZE}) && bill();
+  fireObstacle();
+  // TODO move me
+  for (let hazard of hazards) {
+    hazard.move();
+
+    fill(255, 0, 0);
+    image(
+      hazard.sprite, 
+      hazard.x,
+      hazard.y,
+      Game.BLOCKSIZE,
+      Game.BLOCKSIZE
+    )
+  }
 
   resetMatrix();  // back button tracks with camera
   drawButton('Back', width/2, height - 45, 200, 50);
 }
 
-
   static describeGame() {
     const that = this;
     console.table(that);
   }
-
-
 }

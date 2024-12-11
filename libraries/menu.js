@@ -217,7 +217,8 @@ function drawGame() {
     }
   }
 
-  Game.MAP.renderCoins();
+  // Game.MAP.renderCoins();
+  // renderCoins();
   player.drawPlayer();
   player.handlePlayerMovement();
 

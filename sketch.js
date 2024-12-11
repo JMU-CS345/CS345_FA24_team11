@@ -7,6 +7,8 @@ let raccoonImg;
 let racoonSprite;
 let roadBotImg, roadTopImg, sidewalkImg, grassImg, waterImg, carpetImg;
 
+let cars = [];
+
 function preload() {
   /* LOAD SPRITES HERE */
   coinSprite = loadImage('assets/coin.gif');
@@ -20,6 +22,13 @@ function preload() {
   carpetImg = loadImage('assets/mapGraphics/redCarpet.png');
   sidewalkImg = loadImage('assets/mapGraphics/sidewalk2.png');
   // casinoImg = loadImage('assets/mapGraphics/casino.png');
+
+  for (let i = 1; i <= 4; i++) {
+    cars.push({
+      left:  loadImage(`assets/obs/car${i}-0.png`),
+      right: loadImage(`assets/obs/car${i}-1.png`),
+    })
+  }
 
   preloadCasino();
   preloadSlots();
@@ -55,6 +64,7 @@ function mousePressed() {
     case 'inventory': StoreMenu.handleInventoryClick();   break;
     case 'casino':    handleCasinoMenuClick();            break;
     case 'game':      Game.handleGameClick();             break;
+    case 'over':      handleGameOverClick();              break;
     case 'difficulty' : handleDifficultyClick();          break;
     }
 }
@@ -74,6 +84,9 @@ function keyPressed() {
   if (currentCasinoScreen == 'blackjack') keyPressedBlackJack(keyCode);
 
   if (currentScreen === 'main' && key === ' ') Game.describeGame();
+
+  console.log("player:", Game.player.xPos, Game.player.yPos);
+  
 }
 
 function draw() {
@@ -82,6 +95,7 @@ function draw() {
 
   switch(currentScreen) {
     case 'game':        Game.drawGame();                      break;
+    case 'over':        drawGameOverScreen();                 break;
     case 'difficulty':  drawDifficultyMenu();                 break;
     case 'main':        GameMenu.drawMenu();                  break;
     case 'store':       StoreMenu.drawStoreMenu();            break;

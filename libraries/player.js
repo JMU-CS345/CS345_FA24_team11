@@ -1,6 +1,6 @@
 const DEFAULTSPEED = 10;
 const DEFAULTHEALTH = 15;
-const DEFAULTCURRENCY = 2500;
+let DEFAULTCURRENCY = 2500;
 
 /**
  * Player model with sprite animation and movement
@@ -19,7 +19,7 @@ class Player {
     currency = DEFAULTCURRENCY
   ) {
     // Position and movement properties
-    this.moveLength = Game.BLOCKSIZE * 4;
+    this.moveLength = Game.BLOCKSIZE;
     this.xPos = xPos;
     this.yPos = yPos;
     this.targetX = xPos;
@@ -44,7 +44,7 @@ class Player {
     this.facing = 'down';          // Default facing direction
     this.isMoving = false;         // Track movement state
 
-    this.moveLength = Game.BLOCKSIZE * 4;
+    // this.moveLength = Game.BLOCKSIZE * 4;
 
     // Animation frames mapping
     this.animations = {
@@ -129,18 +129,30 @@ class Player {
       if (keyIsDown(DOWN_ARROW)) {
         newY += this.moveLength;
         this.facing = 'down';
+
+        if (newY > numScreens * height) return;
+
         this.isMoving = true;
       } else if (keyIsDown(UP_ARROW)) {
         newY -= this.moveLength;
         this.facing = 'up';
+
+        if (newY < 0) return;
+
         this.isMoving = true;
       } else if (keyIsDown(RIGHT_ARROW)) {
         newX += this.moveLength;
         this.facing = 'right';
+
+        if (newX > width) return;
+
         this.isMoving = true;
       } else if (keyIsDown(LEFT_ARROW)) {
         newX -= this.moveLength;
         this.facing = 'left';
+        
+        if (newX < 0) return;
+        
         this.isMoving = true;
       } else {
         // No movement keys pressed
@@ -161,8 +173,12 @@ class Player {
     }
 
   canMoveTo(x, y) {
-    const row = Math.floor(y / (Game.BLOCKSIZE * 4));
-    const col = Math.floor(x / (Game.LANEWIDTH * 2));
+    const row = Math.floor(y / (Game.BLOCKSIZE));
+    const col = Math.floor(x / (Game.BLOCKSIZE));
+    console.log(`coord: <${row}, ${col}>`);
+
+    console.log("block", combinedMap[row][col]);
+    
 
     // Check if indices are within the map boundaries
     if (row < 0 || row >= combinedMap.length || col < 0 || col >= combinedMap[0].length) {
@@ -180,7 +196,6 @@ class Player {
     if (tile.type === 'water') {
       return false;
     }
-
     return true;
   }
 
@@ -263,22 +278,12 @@ class Player {
     this.currency += change;
   }
 
-  /**
-   * Concise collision check idea thanks to Alice MC (@alicmc)
-   */
-  // checkCollectCoin() {
-  //   let i = Math.floor(this.xPos / Game.BLOCKSIZE);
-  //   let j = Math.floor(this.yPos / Game.BLOCKSIZE);
-  //   let block = Game.MAP.fetchBlock(i, j);
-  //   return block.checkCoin() ? block : null;
-  // }
-
-  checkCollectCoin() {
-    const boo = () => { console.log("yo")}
-    if (smallHadronCollider(this, Game.MAP.fetchMap())) boo();
-      }
-
-
+  killPlayer() {
+    this.currency = 0;
+    Game.PENALTY += 100;
+    DEFAULTCURRENCY -= Game.PENALTY;
+    Game.endGame();
+  }
 
   collectCoin(block) {
     block.updateCoin(false);
