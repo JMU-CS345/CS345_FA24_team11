@@ -264,11 +264,14 @@ static drawGame() {
   drawMap();
   checkCoin(Game.player);
 
+  // checkCar(Game.player) && Game.player.killPlayer();
+
   if (checkCar(Game.player)) {
-    Game.player.killPlayer();
+    if (!Game.player.shield) Game.player.killPlayer();
   }
 
-  checkCar(Game.player) && Game.player.killPlayer();
+
+
   Game.player.drawPlayer();
   Game.player.handlePlayerMovement();
   Game.checkCasinoEntry(); // Add this line
