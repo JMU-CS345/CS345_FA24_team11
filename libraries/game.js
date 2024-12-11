@@ -293,7 +293,7 @@ static drawGame() {
 
   resetMatrix();  // back button tracks with camera
   drawMoneyCounter();
-  drawButton('Back', width/2, height - 45, 200, 50);
+  // drawButton('Back', width/2, height - 45, 200, 50);
 }
 
   static describeGame() {

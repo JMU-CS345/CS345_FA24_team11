@@ -63,7 +63,8 @@ function mousePressed() {
     case 'powerups':  StoreMenu.handleSubmenuClick();     break;
     case 'inventory': StoreMenu.handleInventoryClick();   break;
     case 'casino':    handleCasinoMenuClick();            break;
-    case 'game':      Game.handleGameClick();             break;
+    case 'pause':     handlePauseClick();                 break;
+    // case 'game':      Game.handleGameClick();             break;
     case 'over':      handleGameOverClick();              break;
     case 'difficulty' : handleDifficultyClick();          break;
     }
@@ -80,6 +81,10 @@ function keyPressed() {
         CoinMultiplier.handleCoinKeyPress(key);
         DashPowerUp.handleDashKeyPress(key);
         ShieldPowerUp.handleShieldKeyPress(key);
+
+        if (keyCode == 27) currentScreen = 'pause';
+        
+
     }
     if (currentCasinoScreen == 'blackjack') keyPressedBlackJack(keyCode);
     if (currentScreen === 'main' && key === ' ') Game.describeGame();
@@ -107,6 +112,7 @@ function draw() {
     case 'main':        GameMenu.drawMenu();                  break;
     case 'store':       StoreMenu.drawStoreMenu();            break;
     case 'casino':      setupCasinoUI(); drawCasino();        break;
+    case 'pause':       drawPauseMenu();
     case 'inventory':   StoreMenu.drawInventory();            break;
     case 'powerups':    /** @todo @mfwolffe don't do below like that, inject it */
     case 'cosmetics':   StoreMenu.drawSubmenu(currentScreen === 'cosmetics' ? StoreMenu.cosmetics : StoreMenu.powerUps);
